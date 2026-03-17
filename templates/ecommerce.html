@@ -1,0 +1,521 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* Gelişmiş Animasyonlar ve Geçişler */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Görsel Arama / Tarama Animasyonu (Fashion Tagger İçin) */
+    @keyframes scanline {
+        0% { top: 0; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+    .animate-scanline {
+        animation: scanline 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    /* Hotspot (Nokta İşaretleyici) Animasyonu */
+    @keyframes ping-large {
+        75%, 100% { transform: scale(2.5); opacity: 0; }
+    }
+    .animate-ping-large {
+        animation: ping-large 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    /* Benzerlik Eşleştirme Kesik Çizgi Animasyonu */
+    @keyframes dash { 
+        to { stroke-dashoffset: -10; } 
+    }
+    .animate-dash {
+        animation: dash 2s linear infinite;
+    }
+
+    /* Kapsayıcı Gölgeleri ve Bento Box Efektleri */
+    .bento-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.05);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bento-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -10px rgba(244, 63, 94, 0.15); /* Rose shadow */
+        border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    /* Koyu Tema Kartları (Ürün Vitrini İçin) */
+    .glass-dark {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
+        transition: all 0.5s ease;
+    }
+    .glass-dark:hover {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: rgba(244, 63, 94, 0.3); /* Rose border */
+        box-shadow: 0 10px 40px -10px rgba(244, 63, 94, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    /* Arka Plan Izgarası */
+    .bg-grid-pattern {
+        background-image: linear-gradient(to right, rgba(244, 63, 94, 0.05) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(244, 63, 94, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+</style>
+
+<main class="flex-grow pt-20 bg-[#fafcff] overflow-hidden font-sans relative">
+    
+    <!-- 1. HERO SECTION (E-Commerce Focus) -->
+    <section class="relative min-h-[90vh] flex items-center pt-10 pb-20 lg:pt-0 lg:pb-0">
+        <!-- Arka Plan Işıkları ve Grid -->
+        <div class="absolute inset-0 bg-grid-pattern -z-30 opacity-60"></div>
+        <div class="absolute top-0 right-0 w-[50rem] h-[50rem] bg-gradient-to-br from-rose-300/20 to-orange-300/20 rounded-full blur-[120px] pointer-events-none -z-20 animate-float" style="animation-duration: 15s;"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-gradient-to-tr from-pink-300/20 to-purple-300/10 rounded-full blur-[100px] pointer-events-none -z-20 animate-float" style="animation-delay: 3s; animation-duration: 12s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+                
+                <!-- Sol: İçerik -->
+                <div class="w-full lg:w-[55%] space-y-8 z-10">
+                    <div class="reveal">
+                        <!-- Teknoloji Badge -->
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-6 group cursor-default">
+                            <i data-feather="shopping-bag" class="w-3.5 h-3.5 text-rose-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider group-hover:text-primary transition-colors">E-Ticaret & Perakende AI</span>
+                        </div>
+                        
+                        <h1 class="text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold text-primary leading-[1.05] tracking-tight mb-6">
+                            Kullanıcılarınızı <br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-rose-500 to-pink-600 relative inline-block pb-2">
+                                Anlayan Deneyim.
+                                <svg class="absolute w-full h-3 bottom-0 left-0 text-rose-500/20 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                    <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="transparent"/>
+                                </svg>
+                            </span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-500 leading-relaxed font-medium max-w-xl">
+                            Kelimelerin yetersiz kaldığı yerde görsel aramayı (Visual Search) devreye sokun. Akıllı kombin önerileri ve otomatik etiketleme ile e-ticaret dönüşüm oranlarınızı zirveye taşıyın.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 items-center reveal reveal-delay-1">
+                        <a href="{{ url_for('home') }}#team" class="h-14 px-8 bg-primary rounded-full flex items-center justify-center gap-2.5 text-white font-bold text-sm hover:bg-slate-800 transition-all shadow-lg hover:-translate-y-1">
+                            Projeyi Konuşalım <i data-feather="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#ecommerce-products" class="h-14 px-8 bg-white border border-slate-200 rounded-full flex items-center justify-center gap-2.5 text-slate-700 font-bold text-sm hover:border-rose-200 hover:text-rose-600 hover:bg-rose-50/50 transition-all">
+                            Ürünleri İnceleyin
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sağ: Özel "Visual Search" İllüstrasyonu -->
+                <div class="w-full lg:w-[45%] relative reveal reveal-delay-2">
+                    <div class="relative w-full aspect-square md:aspect-[4/3] lg:aspect-square bg-white/40 p-4 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(15,23,42,0.1)] border border-white backdrop-blur-xl z-20">
+                        <div class="w-full h-full bg-slate-900 rounded-[2.5rem] relative overflow-hidden flex items-center justify-center group border border-slate-800">
+                            
+                            <!-- E-Commerce Arka Plan -->
+                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.8)_0%,transparent_70%)] group-hover:opacity-40 transition-opacity duration-700"></div>
+                            
+                            <!-- Merkezdeki Görsel Arama Animasyonu -->
+                            <div class="relative z-10 w-full h-full flex items-center justify-between p-8">
+                                <!-- Ana Odaklanan Ürün (Kullanıcının yüklediği) -->
+                                <div class="w-[40%] aspect-[3/4] bg-slate-800 rounded-2xl border-2 border-rose-500/50 relative z-20 shadow-[0_0_30px_rgba(244,63,94,0.3)] flex items-center justify-center overflow-hidden transform group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute inset-0 border-4 border-dashed border-rose-400/30 rounded-2xl animate-[spin_10s_linear_infinite]"></div>
+                                    <i data-feather="camera" class="w-8 h-8 text-rose-400 opacity-80"></i>
+                                    
+                                    <!-- Tarama Çizgisi -->
+                                    <div class="absolute left-0 w-full h-1 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] z-30 animate-scanline"></div>
+                                </div>
+
+                                <!-- Yapay Zeka Eşleşme Çizgileri -->
+                                <div class="absolute left-[40%] right-[35%] top-1/2 -translate-y-1/2 h-[60%] flex flex-col justify-between opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+                                    <svg class="absolute inset-0 w-full h-full stroke-rose-500/60 stroke-[3px] fill-none" preserveAspectRatio="none">
+                                        <path d="M 0 50 C 50 50, 50 15, 100 15" class="animate-dash" stroke-dasharray="6,6"/>
+                                        <path d="M 0 50 C 50 50, 50 50, 100 50" class="animate-dash" stroke-dasharray="6,6"/>
+                                        <path d="M 0 50 C 50 50, 50 85, 100 85" class="animate-dash" stroke-dasharray="6,6"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Bulunan Benzer Ürünler (Veritabanından Gelenler) -->
+                                <div class="w-[30%] h-[70%] flex flex-col justify-between items-end relative z-20">
+                                    <div class="w-full aspect-video bg-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-600 flex items-center justify-center relative transform group-hover:-translate-x-2 transition-transform duration-500">
+                                        <div class="absolute -left-3 top-1/2 -translate-y-1/2 bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">%99</div>
+                                        <i data-feather="image" class="w-5 h-5 text-slate-500"></i>
+                                    </div>
+                                    <div class="w-full aspect-video bg-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-600 flex items-center justify-center relative transform group-hover:-translate-x-2 transition-transform duration-500 delay-75">
+                                        <div class="absolute -left-3 top-1/2 -translate-y-1/2 bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">%92</div>
+                                        <i data-feather="image" class="w-5 h-5 text-slate-500"></i>
+                                    </div>
+                                    <div class="w-full aspect-video bg-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-600 flex items-center justify-center relative transform group-hover:-translate-x-2 transition-transform duration-500 delay-150">
+                                        <div class="absolute -left-3 top-1/2 -translate-y-1/2 bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">%87</div>
+                                        <i data-feather="image" class="w-5 h-5 text-slate-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Yüzen Parametreler -->
+                            <div class="absolute -right-4 top-1/4 bg-slate-800/90 backdrop-blur-md text-orange-400 text-[10px] font-mono font-extrabold px-3 py-1.5 rounded-lg shadow-xl border border-slate-700 animate-float">
+                                visual_search()
+                            </div>
+                            <div class="absolute -left-6 bottom-1/4 bg-slate-800/90 backdrop-blur-md text-pink-400 text-[10px] font-mono font-extrabold px-3 py-1.5 rounded-lg shadow-xl border border-slate-700 animate-float" style="animation-delay: 1.5s;">
+                                extract_features()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. BENTO GRID - E-TİCARET YETKİNLİKLERİ -->
+    <section class="py-24 relative z-10 border-t border-slate-200/50 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-xs font-black text-rose-600 uppercase tracking-[0.2em] bg-rose-50 px-3 py-1 rounded-md">ODAK ALANLARIMIZ</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-primary mt-5 tracking-tight">Veriden Dönüşüme</h2>
+                <p class="mt-4 text-slate-500 text-lg">
+                    Satışları artıran, arama sürelerini kısaltan ve kullanıcı deneyimini kişiselleştiren zeki altyapılar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal reveal-delay-1">
+                <!-- Büyük Kutu 1: Görsel Arama -->
+                <div class="md:col-span-2 bento-card rounded-[2rem] p-8 md:p-10 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-rose-100 rounded-full blur-[80px] -z-10 group-hover:bg-rose-200 transition-colors duration-500"></div>
+                    <div class="w-14 h-14 bg-rose-500 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-rose-500/30">
+                        <i data-feather="search" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-3">Görsel Tabanlı Ürün Arama</h3>
+                    <p class="text-slate-500 text-base leading-relaxed max-w-lg mb-6">
+                        Kullanıcılarınızın beğendikleri bir fotoğrafı yükleyerek saniyeler içinde mağazanızdaki en benzer ürünlere ulaşmasını sağlayın. Derin özellik çıkarımı ile renk, desen ve form analizini kusursuz yapıyoruz.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600">Visual Search</span>
+                        <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600">Deep Matching</span>
+                    </div>
+                </div>
+
+                <!-- Dikey Kutu: Otomatik Etiketleme -->
+                <div class="md:row-span-2 bento-card rounded-[2rem] p-8 md:p-10 relative overflow-hidden group flex flex-col">
+                    <div class="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-orange-50 to-transparent -z-10"></div>
+                    <div class="w-14 h-14 bg-orange-500 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/30">
+                        <i data-feather="tag" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-3">Otomatik Ürün Etiketleme</h3>
+                    <p class="text-slate-500 text-base leading-relaxed mb-8 flex-grow">
+                        Binlerce ürün görselini manuel olarak etiketlemeye son verin. Yapay zeka modellerimiz ürünün kategorisini, rengini, yaka tipini ve desenini anında algılayarak veritabanınıza işler.
+                    </p>
+                    <div class="space-y-3 w-full">
+                        <div class="bg-white p-3 rounded-xl border border-slate-100 flex items-center gap-3 shadow-sm">
+                            <i data-feather="grid" class="w-5 h-5 text-orange-500"></i>
+                            <span class="font-bold text-sm text-primary">Auto-Categorization</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-100 flex items-center gap-3 shadow-sm">
+                            <i data-feather="droplet" class="w-5 h-5 text-orange-500"></i>
+                            <span class="font-bold text-sm text-primary">Color & Pattern Detection</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yatay Küçük Kutu 1: Akıllı Kombin -->
+                <div class="bento-card rounded-[2rem] p-8 relative overflow-hidden group">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-feather="layers" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-primary mb-2">Akıllı Kombin Önerisi</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                        İncelenen bir ürünü tamamlayacak en uygun ayakkabı, çanta veya aksesuarları stil analizi yaparak kullanıcıya sunar (Cross-selling).
+                    </p>
+                </div>
+
+                <!-- Yatay Küçük Kutu 2: Müşteri Analitiği -->
+                <div class="bento-card rounded-[2rem] p-8 relative overflow-hidden group">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-feather="pie-chart" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-primary mb-2">Müşteri Segmentasyonu</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                        Kullanıcı davranışlarını ve geçmiş satın alımları modelleyerek, kampanyalarınızı en doğru hedef kitleye ulaştırıyoruz.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ÖZEL VİTRİN: E-TİCARET ÜRÜNLERİ (Dark Mode) -->
+    <section id="ecommerce-products" class="py-32 relative bg-primary overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
+        <div class="absolute top-0 right-0 w-[60rem] h-[60rem] bg-rose-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[60rem] h-[60rem] bg-orange-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-24 reveal">
+                <span class="text-xs font-black text-rose-400 uppercase tracking-[0.2em] bg-rose-900/30 border border-rose-500/20 px-3 py-1 rounded-md mb-4 inline-block">VİTRİN</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-2 tracking-tight">Perakende Zekası</h2>
+                <p class="mt-4 text-slate-400 text-lg">
+                    Tıklamaları satışa dönüştüren, aktif olarak kullanılan yapay zeka sistemlerimiz.
+                </p>
+            </div>
+
+            <div class="space-y-24">
+                
+                <!-- Ürün 1: Fashion Tagger -->
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 reveal">
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-rose-500 to-pink-600 rounded-3xl transform rotate-3 group-hover:rotate-1 transition-transform duration-500 opacity-40 blur-lg"></div>
+                        <div class="glass-dark rounded-3xl p-2 relative z-10 border border-slate-700 overflow-hidden transform group-hover:-translate-y-2 transition-transform duration-500">
+                            <!-- İnteraktif Tarayıcı Konteyneri -->
+                            <div class="aspect-video bg-slate-800 rounded-2xl relative overflow-hidden flex items-center justify-center">
+                                <!-- Tarayıcı Çizgisi Animasyonu -->
+                                <div class="absolute left-0 w-full h-[2px] bg-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.8)] z-30 animate-scanline"></div>
+                                
+                                <img src="{{ url_for('static', filename='fashion_placeholder.png') }}" alt="Fashion Model" class="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-700" onerror="this.outerHTML='<div class=\'absolute inset-0 flex items-center justify-center bg-slate-800 text-slate-600\'><i data-feather=\'camera\' class=\'w-16 h-16\'></i></div>'">
+                                
+                                <!-- Özel Hotspot (İşaretleyici) -->
+                                <div class="absolute top-[50%] right-[25%] z-20 flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-600 text-white text-xs font-mono py-1.5 px-3 rounded shadow-xl whitespace-nowrap">
+                                        Pamuklu Gömlek <span class="text-emerald-400 ml-2 font-bold">%99.4</span>
+                                    </div>
+                                    <div class="w-10 h-px bg-white/50"></div>
+                                    <div class="relative flex items-center justify-center">
+                                        <div class="absolute w-8 h-8 border border-white rounded-full animate-ping-large"></div>
+                                        <div class="w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-800 border border-slate-700 text-rose-400 text-xs font-bold uppercase tracking-widest mb-4">
+                            Katalog Yönetimi
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Fashion Tagger</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                            Görsellerden otomatik ürün etiketleme sistemi. Segmentasyon, sınıflandırma ve renk tespiti ile hiyerarşik ve ince detaylı ürün etiketleri oluşturarak arama algoritmalarınızı besler.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Büyük e-ticaret veri setlerine zahmetsizce ölçeklenme</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">SEO dostu, tutarlı meta veri (metadata) üretimi</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ürün 2: TwinShop & LookLinked -->
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-16 reveal">
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-orange-500 to-rose-600 rounded-3xl transform -rotate-3 group-hover:-rotate-1 transition-transform duration-500 opacity-40 blur-lg"></div>
+                        <div class="glass-dark rounded-3xl p-2 relative z-10 border border-slate-700 overflow-hidden transform group-hover:-translate-y-2 transition-transform duration-500">
+                            <!-- İnteraktif Eşleşme Animasyonu -->
+                            <div class="w-full aspect-video rounded-2xl bg-slate-800/50 relative overflow-hidden flex items-center justify-center p-6">
+                                <div class="w-full h-full flex items-center justify-between relative z-10">
+                                    <!-- Ana Ürün -->
+                                    <div class="w-[35%] aspect-square bg-slate-700/50 rounded-xl border-2 border-orange-500/50 flex flex-col items-center justify-center p-2 relative z-20 group-hover:scale-105 transition-transform">
+                                        <i data-feather="upload" class="w-8 h-8 text-slate-400 mb-2"></i>
+                                        <span class="text-[10px] text-slate-300 font-medium">Yüklenen Ürün</span>
+                                    </div>
+                                    
+                                    <!-- Bağlantı Çizgileri -->
+                                    <div class="absolute left-[35%] right-[35%] top-1/2 -translate-y-1/2 h-[60%] flex flex-col justify-between opacity-30 group-hover:opacity-100 transition-opacity duration-500">
+                                        <svg class="absolute inset-0 w-full h-full stroke-orange-500/80 stroke-[2px] fill-none" preserveAspectRatio="none">
+                                            <path d="M 0 50 C 50 50, 50 10, 100 10" class="animate-dash" stroke-dasharray="5,5"/>
+                                            <path d="M 0 50 C 50 50, 50 50, 100 50" class="animate-dash" stroke-dasharray="5,5"/>
+                                            <path d="M 0 50 C 50 50, 50 90, 100 90" class="animate-dash" stroke-dasharray="5,5"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Benzer Ürünler Sonuçları -->
+                                    <div class="w-[30%] h-full flex flex-col justify-between items-end relative z-20 gap-2">
+                                        <div class="w-full flex-1 bg-slate-800 rounded-lg border border-slate-600 flex flex-col items-center justify-center shadow-lg transform group-hover:-translate-x-1 transition-transform">
+                                            <i data-feather="image" class="w-4 h-4 text-slate-500 mb-1"></i>
+                                            <span class="text-[9px] text-emerald-400 font-mono font-bold">%98 Eşleşme</span>
+                                        </div>
+                                        <div class="w-full flex-1 bg-slate-800 rounded-lg border border-slate-600 flex flex-col items-center justify-center shadow-lg transform group-hover:-translate-x-1 transition-transform delay-75">
+                                            <i data-feather="image" class="w-4 h-4 text-slate-500 mb-1"></i>
+                                            <span class="text-[9px] text-emerald-400 font-mono font-bold">%92 Eşleşme</span>
+                                        </div>
+                                        <div class="w-full flex-1 bg-slate-800 rounded-lg border border-slate-600 flex flex-col items-center justify-center shadow-lg transform group-hover:-translate-x-1 transition-transform delay-150">
+                                            <i data-feather="image" class="w-4 h-4 text-slate-500 mb-1"></i>
+                                            <span class="text-[9px] text-emerald-400 font-mono font-bold">%85 Eşleşme</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-800 border border-slate-700 text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">
+                            Arama & Öneri Motoru
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">TwinShop & LookLinked</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                            Derin özellik çıkarımı ve benzerlik eşleştirme (Similarity Matching) teknolojisi ile yapay zeka destekli görsel arama. Kullanıcıya tek bir üründen yola çıkarak akıllı kombin alternatifleri sunar.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Stil, sezon ve kategoriye duyarlı keşif mimarisi</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Ortalama sepet tutarında (AOV) belirgin artış</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. İŞ SÜRECİ: Veriden Dönüşüme -->
+    <section class="py-24 bg-[#fafcff] relative border-t border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 reveal">
+                <span class="text-xs font-black text-rose-600 uppercase tracking-[0.2em] bg-rose-50 px-3 py-1 rounded-md">ENTEGRASYON SÜRECİ</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mt-5">Katalogdan Kullanıcıya</h2>
+                <p class="mt-4 text-slate-500 text-lg max-w-2xl mx-auto">E-ticaret platformunuzu 4 pürüzsüz adımda yapay zeka ile güçlendiriyoruz.</p>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto">
+                <div class="hidden md:block absolute top-[45px] left-[10%] w-[80%] h-1 bg-slate-100 rounded-full -z-10">
+                    <div class="h-full bg-gradient-to-r from-orange-500 via-rose-500 to-pink-500 rounded-full w-full opacity-50"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                    <div class="flex flex-col items-center text-center reveal">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-orange-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="database" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Katalog İçe Aktarımı</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Mevcut ürün görsellerinizin ve metinlerinizin (Data Ingestion) sisteme alınması.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-1">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-rose-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="cpu" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Derin Özellik Çıkarımı</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Her ürünün renk, form ve stil açısından yüzlerce sayısal vektöre dönüştürülmesi.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-2">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-pink-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="layers" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Vektör İndeksleme</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Milisaniyeler içinde arama yapabilmek için ürünlerin uzayda vektörel olarak haritalanması.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-3">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-purple-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="smartphone" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">API & UX Tasarımı</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Geliştirdiğimiz REST API'lerin sitenizin veya uygulamanızın arayüzüne bağlanması.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CTA SECTION (Kusursuz Hizalanmış Temiz Tasarım) -->
+    <section class="py-32 relative overflow-hidden bg-gradient-to-b from-white to-[#f8fafc] flex flex-col items-center justify-center border-t border-slate-100">
+        <!-- Soft Glow Arka Plan (Temaya uygun Orange/Rose) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[60rem] max-h-[60rem] bg-rose-100/30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+        <div class="max-w-5xl mx-auto px-4 text-center reveal relative z-10 w-full">
+            
+            <!-- Tipografi ve Filigran Konteyneri -->
+            <div class="relative w-full flex flex-col items-center justify-center py-12 md:py-20 mb-4">
+                
+                <!-- Kusursuz Ortalanmış, Daha Belirgin Filigran (Watermark) -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+                    <span class="text-[12vw] md:text-[11rem] lg:text-[13.5rem] font-black text-slate-200/70 tracking-tighter leading-none whitespace-nowrap">
+                        Yapay Zeka Destekli
+                    </span>
+                </div>
+                
+                <!-- Pürüzsüz Geçişli Ana Başlık -->
+                <h2 class="relative z-10 text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-rose-500 to-pink-500 tracking-tight leading-[1.1] pb-2">
+                    Geleceğe Hazır<br>Mısınız?
+                </h2>
+            </div>
+
+            <!-- Alt Açıklama Metni -->
+            <p class="text-slate-500 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed relative z-10">
+                Uluslararası işbirlikleri ve akademik tecrübemizle, verinizden değer<br class="hidden md:block">
+                üreten özel algoritmalar tasarlamak için bizimle iletişime geçin.
+            </p>
+
+            <!-- Butonlar -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto relative z-10">
+                <!-- Ana Sayfa Ekip Kısmına Yönlendiren Buton -->
+                <a href="{{ url_for('home') }}#team" class="group w-full sm:w-auto h-14 px-10 bg-white text-slate-800 rounded-full font-bold hover:shadow-[0_10px_30px_-10px_rgba(244,63,94,0.4)] hover:border-rose-200 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_5px_20px_rgba(0,0,0,0.05)] border border-slate-100 flex items-center justify-center gap-3 text-[15px]">
+                    Uzmanlarımızla Görüşün 
+                    <i data-feather="arrow-right" class="w-4 h-4 text-rose-500 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                
+                <!-- Sağ Buton (Şeffaf Zemin, Mail İkonu) -->
+                <a href="mailto:info@zoidata.com" class="group w-full sm:w-auto h-14 px-10 bg-transparent border-2 border-slate-200 text-slate-500 rounded-full font-bold hover:border-slate-300 hover:text-slate-700 hover:bg-slate-50 transition-all duration-300 flex items-center justify-center gap-3 text-[15px]">
+                    <i data-feather="mail" class="w-4 h-4 opacity-70"></i> info@zoidata.com
+                </a>
+            </div>
+            
+        </div>
+    </section>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if(typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,733 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Özel CSS (Animasyonlar ve Geçişler) -->
+<style>
+    /* Kayan Logolar İçin */
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-scroll {
+        animation: scroll 40s linear infinite;
+        width: max-content;
+    }
+    .marquee-container:hover .animate-scroll {
+        animation-play-state: paused;
+    }
+    
+    /* Ekibimiz Slider Geçiş Efektleri */
+    .fade-transition {
+        transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .fade-out {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+    .fade-in {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Sayfa Kaydırma (Scroll Reveal) Animasyonları */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+    .reveal-delay-4 { transition-delay: 400ms; }
+
+    /* Yüzen (Floating) Element Animasyonu */
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+</style>
+
+<main class="flex-grow pt-20 bg-[#fafcff] overflow-hidden font-sans">
+    
+    <!-- 1. Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28 relative">
+        <!-- Genel Arka Plan Işıkları (Daha yumuşak ve hareketli) -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-20 pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-300/20 rounded-full blur-[120px] animate-float" style="animation-duration: 10s;"></div>
+            <div class="absolute bottom-[-10%] right-[-20%] w-[60%] h-[60%] bg-indigo-300/10 rounded-full blur-[120px] animate-float" style="animation-duration: 14s; animation-delay: 2s;"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+            <!-- Sol Sütun: İçerik, Butonlar ve Akordeon -->
+            <div class="w-full lg:w-1/2 flex flex-col space-y-12 z-10">
+                <div class="space-y-6 reveal">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100/50 text-blue-600 font-bold text-xs uppercase tracking-widest shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                        Yapay Zeka Platformu
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-[4.5rem] font-extrabold text-primary leading-[1.05] tracking-tight">
+                        Ana Başlık Alanı <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 relative inline-block pb-2">
+                            Temsili Metin
+                            <svg class="absolute w-full h-3 bottom-0 left-0 text-indigo-200/40 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="transparent"/>
+                            </svg>
+                        </span> <br/>
+                        Buraya Gelecek
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg font-medium">
+                        Alt başlık için ayrılmış alan. Buraya şirketiniz, projeniz veya ürününüz hakkında açıklayıcı temsili bir metin eklenecektir.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-4 items-center reveal reveal-delay-1">
+                    <button class="h-14 px-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center gap-2.5 text-white font-bold text-sm hover:from-blue-700 hover:to-indigo-700 transition-all shadow-[0_10px_25px_-5px_rgba(59,130,246,0.5)] hover:-translate-y-1 hover:shadow-[0_15px_30px_-5px_rgba(59,130,246,0.6)]">
+                        <i data-feather="zap" class="w-4 h-4"></i> Ana Buton
+                    </button>
+                    <button class="h-14 px-8 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-700 font-bold text-sm hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50/50 hover:shadow-md transition-all">
+                        İkincil Buton
+                    </button>
+                </div>
+
+                <!-- Akordeon Menü -->
+                <div class="w-full max-w-lg flex flex-col gap-3 pt-2 reveal reveal-delay-2">
+                    <!-- Öğe 1 -->
+                    <div class="accordion-item relative bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-blue-50/80 overflow-hidden transition-all duration-500 transform scale-[1.02] z-10 group/acc">
+                        <div class="active-indicator absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 to-indigo-600 opacity-100 transition-opacity duration-300 rounded-r-md"></div>
+                        <button class="accordion-header w-full py-5 pl-7 pr-6 flex justify-between items-center text-left focus:outline-none group" data-image="{{ url_for('static', filename='gorsel1.png') }}" data-title="Görsel 1">
+                            <span class="header-text font-extrabold text-indigo-600 text-[1.10rem] transition-all tracking-tight group-hover/acc:translate-x-1 duration-300">Temsili Öğe Başlığı 1</span>
+                            <span class="icon-container transform transition-all duration-300 rotate-180 text-indigo-600 bg-indigo-50 p-1.5 rounded-xl shadow-sm">
+                                <i data-feather="chevron-down" class="w-5 h-5"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-content text-slate-500 text-sm leading-relaxed pb-6 pl-8 pr-8">
+                            Bu alana birinci akordeon öğesinin detaylı açıklaması gelecektir. Metinler son aşamada sizin belirteceğiniz içeriklerle güncellenecektir.
+                            <div class="mt-4">
+                                <a href="#" class="inline-flex items-center text-indigo-600 font-bold hover:text-indigo-800 transition-colors group/link">
+                                    Daha fazla bilgi <i data-feather="arrow-right" class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Öğe 2 -->
+                    <div class="accordion-item relative bg-transparent rounded-2xl overflow-hidden transition-all duration-500 hover:bg-white hover:shadow-md hover:-translate-y-0.5 border border-transparent scale-100 z-0 group/acc">
+                        <div class="active-indicator absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 to-indigo-600 opacity-0 transition-opacity duration-300 rounded-r-md"></div>
+                        <button class="accordion-header w-full py-5 pl-7 pr-6 flex justify-between items-center text-left focus:outline-none group" data-image="{{ url_for('static', filename='gorsel2.png') }}" data-title="Görsel 2">
+                            <span class="header-text font-semibold text-slate-700 text-[1.05rem] group-hover:text-indigo-600 transition-all tracking-tight group-hover/acc:translate-x-1 duration-300">Temsili Öğe Başlığı 2</span>
+                            <span class="icon-container transform transition-all duration-300 text-slate-400 bg-transparent p-1.5 rounded-xl group-hover:text-indigo-600">
+                                <i data-feather="chevron-down" class="w-5 h-5"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-content text-slate-500 text-sm leading-relaxed pb-6 pl-8 pr-8 hidden">
+                            Bu alana ikinci akordeon öğesinin detaylı açıklaması gelecektir. Metinler son aşamada sizin belirteceğiniz içeriklerle güncellenecektir.
+                        </div>
+                    </div>
+                    <!-- Öğe 3 -->
+                    <div class="accordion-item relative bg-transparent rounded-2xl overflow-hidden transition-all duration-500 hover:bg-white hover:shadow-md hover:-translate-y-0.5 border border-transparent scale-100 z-0 group/acc">
+                        <div class="active-indicator absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 to-indigo-600 opacity-0 transition-opacity duration-300 rounded-r-md"></div>
+                        <button class="accordion-header w-full py-5 pl-7 pr-6 flex justify-between items-center text-left focus:outline-none group" data-image="{{ url_for('static', filename='gorsel3.png') }}" data-title="Görsel 3">
+                            <span class="header-text font-semibold text-slate-700 text-[1.05rem] group-hover:text-indigo-600 transition-all tracking-tight group-hover/acc:translate-x-1 duration-300">Temsili Öğe Başlığı 3</span>
+                            <span class="icon-container transform transition-all duration-300 text-slate-400 bg-transparent p-1.5 rounded-xl group-hover:text-indigo-600">
+                                <i data-feather="chevron-down" class="w-5 h-5"></i>
+                            </span>
+                        </button>
+                        <div class="accordion-content text-slate-500 text-sm leading-relaxed pb-6 pl-8 pr-8 hidden">
+                            Bu alana üçüncü akordeon öğesinin detaylı açıklaması gelecektir. Metinler son aşamada sizin belirteceğiniz içeriklerle güncellenecektir.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Sütun: Görsel Yer Tutucu -->
+            <div class="w-full lg:w-1/2 relative flex justify-center items-center py-10 reveal reveal-delay-2">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[115%] aspect-square bg-gradient-to-tr from-blue-100/50 via-indigo-50/50 to-purple-50/30 rounded-full -z-10 shadow-[inset_0_0_80px_rgba(255,255,255,1)] animate-float" style="animation-duration: 8s;"></div>
+                
+                <div class="relative w-full max-w-lg animate-float" style="animation-duration: 6s; animation-delay: 1s;">
+                    <div class="aspect-[4/5] md:aspect-square w-full bg-white/40 p-3 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(15,23,42,0.1)] border border-white/80 backdrop-blur-xl relative z-20">
+                        <div class="w-full h-full bg-[#f8fafc] rounded-[2rem] flex items-center justify-center relative overflow-hidden group border border-slate-200/50">
+                            
+                            <!-- Işık Yansıması Efekti -->
+                            <div class="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-12 z-30 group-hover:animate-[shine_1.5s_ease-in-out]"></div>
+
+                            <div class="flex flex-col items-center justify-center space-y-4 transition-opacity duration-300 z-10 w-full h-full bg-gradient-to-b from-white to-slate-50" id="image-placeholder-container">
+                                <div class="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-2 shadow-inner border border-blue-100/50">
+                                    <i data-feather="image" class="w-8 h-8 opacity-80"></i>
+                                </div>
+                                <span id="image-placeholder-text" class="text-primary font-extrabold text-2xl tracking-tight">Görsel 1</span>
+                                <div class="flex items-center gap-2 mt-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-100">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Sistem Hazır</span>
+                                </div>
+                            </div>
+                            
+                            <img id="dynamic-image" src="{{ url_for('static', filename='gorsel1.png') }}" alt="Görsel 1" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 ease-in-out z-20 transform group-hover:scale-105" onload="this.style.opacity=1; document.getElementById('image-placeholder-container').style.opacity=0;" onerror="this.style.opacity=0; document.getElementById('image-placeholder-container').style.opacity=1;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Referanslar (Marquee) -->
+    <section class="py-14 bg-white border-y border-slate-100 overflow-hidden relative marquee-container select-none reveal">
+        <div class="max-w-7xl mx-auto px-4 mb-10 relative z-20 text-center flex flex-col items-center">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Referanslarımız</h3>
+            <div class="w-12 h-0.5 bg-slate-200 rounded-full mt-4"></div>
+        </div>
+        
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+        <div class="flex animate-scroll items-center gap-16 md:gap-28 px-8">
+            <!-- 6'lı Logo Seti (1. Kopya) -->
+            {% for i in range(1, 7) %}
+            <div class="flex-shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-pointer hover:-translate-y-1 group">
+                <img src="{{ url_for('static', filename='sirket' ~ i ~ '.png') }}" alt="Şirket {{ i }}" class="h-8 md:h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="hidden items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-slate-200 group-hover:bg-indigo-500 transition-colors"></div>
+                    <span class="text-xl font-extrabold text-slate-400 group-hover:text-indigo-600 transition-colors tracking-widest uppercase whitespace-nowrap">ŞİRKET {{ i }}</span>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- 6'lı Logo Seti (2. Kopya - Sonsuz dönüş için) -->
+            {% for i in range(1, 7) %}
+            <div class="flex-shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-pointer hover:-translate-y-1 group">
+                <img src="{{ url_for('static', filename='sirket' ~ i ~ '.png') }}" alt="Şirket {{ i }}" class="h-8 md:h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="hidden items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-slate-200 group-hover:bg-indigo-500 transition-colors"></div>
+                    <span class="text-xl font-extrabold text-slate-400 group-hover:text-indigo-600 transition-colors tracking-widest uppercase whitespace-nowrap">ŞİRKET {{ i }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- 3. İNTERAKTİF DEMO BÖLÜMÜ -->
+    <section class="py-24 lg:py-32 bg-[#fafcff] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Demo Başlıkları -->
+            <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-[0.2em] mb-4 border border-indigo-100">SİSTEMİ DENEYİMLEYİN</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-primary mt-2 mb-6 tracking-tight">Temsili Başlık: Çözümlerimizi Test Edin</h2>
+                <p class="text-slate-500 text-lg">
+                    Aşağıdaki alandan sunduğumuz teknolojik modellerin farklı senaryolarda nasıl çalıştığını temsili olarak inceleyebilirsiniz.
+                </p>
+            </div>
+
+            <!-- Ana Kategoriler (Profesyonel Segmented Control / Kapsül Tasarım) -->
+            <div class="flex justify-center mb-12 reveal reveal-delay-1">
+                <div class="inline-flex items-center p-1.5 bg-slate-200/50 backdrop-blur-md border border-slate-200/80 rounded-full shadow-inner relative">
+                    <button class="demo-main-tab active relative px-6 md:px-8 py-2.5 text-sm rounded-full transition-all duration-300 bg-white text-indigo-600 font-extrabold shadow-md border border-white z-10" data-category="1">
+                        Temsili Kategori 1
+                    </button>
+                    <button class="demo-main-tab relative px-6 md:px-8 py-2.5 text-sm rounded-full transition-all duration-300 bg-transparent text-slate-500 font-semibold hover:text-primary hover:bg-white/50 border border-transparent z-0" data-category="2">
+                        Temsili Kategori 2
+                    </button>
+                    <button class="demo-main-tab relative px-6 md:px-8 py-2.5 text-sm rounded-full transition-all duration-300 bg-transparent text-slate-500 font-semibold hover:text-primary hover:bg-white/50 border border-transparent z-0" data-category="3">
+                        Temsili Kategori 3
+                    </button>
+                </div>
+            </div>
+
+            <!-- Alt Kategoriler -->
+            <div id="demo-sub-tabs-container" class="flex flex-wrap justify-center gap-8 md:gap-12 mb-10 border-b border-slate-200 reveal reveal-delay-2">
+                <button class="demo-sub-tab active pb-4 text-sm font-bold text-primary border-b-[3px] border-indigo-600 transition-colors" data-index="0">
+                    İşlem Senaryosu 1
+                </button>
+                <button class="demo-sub-tab pb-4 text-sm font-semibold text-slate-400 border-b-[3px] border-transparent hover:text-slate-700 transition-colors" data-index="1">
+                    İşlem Senaryosu 2
+                </button>
+                <button class="demo-sub-tab pb-4 text-sm font-semibold text-slate-400 border-b-[3px] border-transparent hover:text-slate-700 transition-colors" data-index="2">
+                    İşlem Senaryosu 3
+                </button>
+            </div>
+
+            <!-- İnteraktif Demo Kutusu (Uygulama Arayüzü Hissi) -->
+            <div class="max-w-5xl mx-auto bg-white/50 backdrop-blur-sm p-3 md:p-4 rounded-[3rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] border border-slate-200/80 reveal reveal-delay-3">
+                <div class="bg-white rounded-[2.5rem] w-full min-h-[500px] flex flex-col lg:flex-row overflow-hidden border border-slate-100 shadow-sm relative">
+                    
+                    <!-- Sol Taraf: Dinamik İçerik ve Görsel -->
+                    <div class="w-full lg:w-[45%] bg-[#f8fafc] p-8 md:p-12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-100 relative">
+                        <!-- Köşe Süsü -->
+                        <div class="absolute top-0 left-0 w-32 h-32 bg-indigo-50 rounded-br-full -z-10 opacity-50"></div>
+
+                        <div class="mb-8 relative rounded-2xl overflow-hidden aspect-square md:aspect-[4/3] bg-white shadow-[0_10px_20px_rgba(0,0,0,0.03)] border border-slate-200/60 flex items-center justify-center group">
+                            <!-- Float Etiket -->
+                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm border border-slate-100 font-bold text-[10px] text-emerald-600 flex items-center gap-1.5 z-30">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> SİSTEM AKTİF
+                            </div>
+
+                            <!-- Dinamik Ana Görsel Alanı -->
+                            <span id="demo-box-placeholder" class="text-slate-300 font-extrabold text-xl md:text-2xl tracking-tight z-10 text-center px-4 transition-opacity duration-300">
+                                Temsili Önizleme <br>
+                                <span class="text-xs font-normal" id="demo-box-loading-text">Kategori 1 - İşlem 1 Yükleniyor...</span>
+                            </span>
+                            <img id="demo-box-image" 
+                                 src="{{ url_for('static', filename='kategori1_islem1_ana.png') }}" 
+                                 alt="Demo Görsel" 
+                                 class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 z-20 group-hover:scale-105 transition-transform" 
+                                 onload="this.style.opacity=1; document.getElementById('demo-box-placeholder').style.opacity=0;" 
+                                 onerror="this.style.opacity=0; document.getElementById('demo-box-placeholder').style.opacity=1;">
+                        </div>
+                        
+                        <h3 id="demo-box-title" class="text-2xl font-extrabold text-primary mb-3 leading-tight transition-all duration-300">Temsili Alt Başlık İşlem 1.1</h3>
+                        <p id="demo-box-desc" class="text-slate-500 text-sm leading-relaxed transition-all duration-300">Bu alana seçtiğiniz işlemle alakalı açıklayıcı bir temsili metin gelecektir.</p>
+                    </div>
+
+                    <!-- Sağ Taraf: Temsili Araçlar -->
+                    <div class="w-full lg:w-[55%] p-8 md:p-12 flex flex-col items-center justify-center bg-white relative">
+                        
+                        <!-- Yükleme Alanı Temsili -->
+                        <div class="w-full max-w-sm rounded-2xl border-2 border-dashed border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all cursor-pointer flex flex-col items-center justify-center py-10 px-6 text-center mb-10 group">
+                            <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-blue-600 text-white rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-600/20 group-hover:-translate-y-1 transition-transform">
+                                <i data-feather="upload-cloud" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-sm font-bold text-primary mb-1">Görsel Yükleyin</span>
+                            <span class="text-xs text-slate-400 font-medium bg-slate-100 px-3 py-1 rounded-md mt-2">veya URL yapıştırın (ctrl+v)</span>
+                        </div>
+
+                        <!-- Temsili Örnekler Grid -->
+                        <div class="w-full max-w-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Örnekleri İnceleyin</p>
+                                <span class="text-[11px] text-indigo-600 font-semibold cursor-pointer hover:underline">Tümünü Gör</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4">
+                                <!-- Örnek 1 -->
+                                <div class="group relative aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                                    <div class="absolute inset-0 flex items-center justify-center text-slate-300 group-hover:text-indigo-300 transition-colors z-0">
+                                        <i data-feather="image" class="w-6 h-6"></i>
+                                    </div>
+                                    <img id="demo-ex-img-1" src="{{ url_for('static', filename='kategori1_islem1_ornek1.png') }}" class="absolute inset-0 w-full h-full object-cover z-10 opacity-0 transition-all duration-500 group-hover:scale-110" onload="this.style.opacity=1" onerror="this.style.opacity=0">
+                                    <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <span class="absolute bottom-2 left-0 right-0 text-center text-[9px] font-black text-white z-30 tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">ÖRNEK 1</span>
+                                </div>
+
+                                <!-- Örnek 2 -->
+                                <div class="group relative aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1" style="transition-delay: 50ms;">
+                                    <div class="absolute inset-0 flex items-center justify-center text-slate-300 group-hover:text-indigo-300 transition-colors z-0">
+                                        <i data-feather="image" class="w-6 h-6"></i>
+                                    </div>
+                                    <img id="demo-ex-img-2" src="{{ url_for('static', filename='kategori1_islem1_ornek2.png') }}" class="absolute inset-0 w-full h-full object-cover z-10 opacity-0 transition-all duration-500 group-hover:scale-110" onload="this.style.opacity=1" onerror="this.style.opacity=0">
+                                    <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <span class="absolute bottom-2 left-0 right-0 text-center text-[9px] font-black text-white z-30 tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">ÖRNEK 2</span>
+                                </div>
+
+                                <!-- Örnek 3 -->
+                                <div class="group relative aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1" style="transition-delay: 100ms;">
+                                    <div class="absolute inset-0 flex items-center justify-center text-slate-300 group-hover:text-indigo-300 transition-colors z-0">
+                                        <i data-feather="image" class="w-6 h-6"></i>
+                                    </div>
+                                    <img id="demo-ex-img-3" src="{{ url_for('static', filename='kategori1_islem1_ornek3.png') }}" class="absolute inset-0 w-full h-full object-cover z-10 opacity-0 transition-all duration-500 group-hover:scale-110" onload="this.style.opacity=1" onerror="this.style.opacity=0">
+                                    <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <span class="absolute bottom-2 left-0 right-0 text-center text-[9px] font-black text-white z-30 tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">ÖRNEK 3</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. TEKNOLOJİ YIĞINI BÖLÜMÜ -->
+    <section class="py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-blue-50/50 relative overflow-hidden border-t border-slate-100">
+        
+        <!-- Arka Plan Soft Işıklar -->
+        <div class="absolute top-0 left-0 w-[50rem] h-[50rem] bg-blue-300/20 rounded-full blur-[150px] pointer-events-none animate-float" style="animation-duration: 12s;"></div>
+        <div class="absolute bottom-0 right-0 w-[50rem] h-[50rem] bg-indigo-300/10 rounded-full blur-[150px] pointer-events-none animate-float" style="animation-duration: 15s; animation-delay: 3s;"></div>
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#0f172a 1px, transparent 1px); background-size: 32px 32px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Başlık -->
+            <div class="mb-16 text-center lg:text-left reveal">
+                <span class="text-xs font-black text-indigo-600 uppercase tracking-[0.2em] bg-indigo-100/50 px-3 py-1 rounded-md">ALTYAPI</span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mt-4 tracking-tight">Kullandığımız Teknolojiler</h2>
+                <p class="mt-4 text-slate-500 text-lg max-w-2xl mx-auto lg:mx-0">
+                    Sistemlerimizi güçlendiren ve kesintisiz hizmet sunmamızı sağlayan temsili teknoloji yığınımız.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Sol Büyük Kutu -->
+                <div class="lg:col-span-2 rounded-[2.5rem] bg-white/50 backdrop-blur-2xl p-2.5 shadow-[0_10px_40px_rgba(59,130,246,0.08)] border border-white hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] transition-all duration-500 group reveal reveal-delay-1">
+                    <div class="w-full h-full rounded-[2rem] bg-white/70 border border-white p-8 md:p-12 flex items-center relative overflow-hidden">
+                        <!-- Cam efekti ışık yansıması -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white/40 blur-3xl rounded-full"></div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-y-14 gap-x-12 w-full justify-items-center items-center relative z-10">
+                            {% for i in range(1, 7) %}
+                            <div class="flex items-center justify-center h-12 md:h-14 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-110 hover:-translate-y-2 hover:drop-shadow-[0_15px_15px_rgba(59,130,246,0.25)] transition-all duration-500 cursor-pointer">
+                                <img src="{{ url_for('static', filename='tekno' ~ i ~ '.png') }}" alt="Teknoloji {{ i }}" class="max-h-full max-w-full object-contain" onerror="this.outerHTML='<span class=\'text-xl font-black text-slate-300 tracking-wider\'>LOGOTİP {{ i }}</span>'">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Küçük Kutular -->
+                <div class="flex flex-col gap-8 reveal reveal-delay-2">
+                    <!-- Üst Kutu -->
+                    <div class="rounded-[2.5rem] bg-white/50 backdrop-blur-2xl p-2.5 shadow-[0_10px_40px_rgba(59,130,246,0.08)] border border-white hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 cursor-pointer">
+                        <div class="w-full h-full rounded-[2rem] bg-white/70 border border-white p-8 flex items-center gap-6 relative overflow-hidden">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex flex-shrink-0 items-center justify-center text-indigo-600 shadow-inner z-10">
+                                <i data-feather="check-circle" class="w-7 h-7"></i>
+                            </div>
+                            <span class="font-extrabold text-primary text-xl md:text-2xl tracking-tight z-10">REST API</span>
+                        </div>
+                    </div>
+
+                    <!-- Alt Kutu -->
+                    <div class="rounded-[2.5rem] bg-white/50 backdrop-blur-2xl p-2.5 shadow-[0_10px_40px_rgba(59,130,246,0.08)] border border-white hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 cursor-pointer h-full flex-grow">
+                        <div class="w-full h-full rounded-[2rem] bg-white/70 border border-white p-8 flex items-start gap-6 relative overflow-hidden">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 flex flex-shrink-0 items-center justify-center text-emerald-500 mt-1 shadow-inner z-10">
+                                <i data-feather="activity" class="w-7 h-7"></i>
+                            </div>
+                            <div class="flex flex-col z-10">
+                                <span class="block text-slate-400 font-bold text-[10px] mb-2 uppercase tracking-[0.2em]">SİSTEM İZLEME</span>
+                                <span class="font-extrabold text-primary text-xl md:text-2xl tracking-tight">Durum Kontrolü</span>
+                                <div class="mt-6 flex items-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                                    <img src="{{ url_for('static', filename='monitor_logo.png') }}" alt="Sistem İzleme" class="h-6 object-contain" onerror="this.outerHTML='<span class=\'text-sm font-black text-slate-300 tracking-widest uppercase\'>• UPTIMEROBOT</span>'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. EKİBİMİZ (GENİŞLEYEN PROFESYONEL KART TASARIMI) - BURAYA ID EKLENDI VE SCROLL AYARLANDI -->
+    <section id="team" class="py-24 lg:py-32 bg-white relative overflow-hidden border-t border-slate-100 scroll-mt-20">
+        <!-- Dekoratif Arka Plan Şekli -->
+        <div class="absolute top-0 right-0 w-[40rem] h-[40rem] bg-slate-50 rounded-full blur-[100px] pointer-events-none -z-10 translate-x-1/3 -translate-y-1/3"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Başlık -->
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="text-xs font-black text-indigo-600 uppercase tracking-[0.2em] bg-indigo-50 px-3 py-1 rounded-md">BİZİMLE TANIŞIN</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-primary mt-4 mb-5 tracking-tight">Temsili Başlık: Ekibimiz</h2>
+                <p class="text-slate-500 text-lg">
+                    Projelerin arkasındaki uzmanlarla tanışın. Temsili ekip üyeleri ve uzmanlık alanları.
+                </p>
+            </div>
+
+            <!-- Profesyonel Ekip Grid Konteyneri -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10">
+                
+                <!-- Ekip Üyesi 1 -->
+                <div class="group flex flex-col items-center reveal reveal-delay-1">
+                    <!-- Görsel Alanı -->
+                    <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-sm">
+                        <span class="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest text-xs z-0">Fotoğraf 1</span>
+                        <img src="{{ url_for('static', filename='ekip1.png') }}" alt="Ekip Üyesi 1" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-700 ease-in-out group-hover:scale-105" onerror="this.style.opacity=0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    </div>
+                    
+                    <!-- Genişleyen İçerik Kutusu (Overlapping & Expanding) -->
+                    <div class="relative w-[92%] -mt-16 bg-white rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 transform group-hover:-translate-y-4 z-30 flex flex-col border border-slate-50 overflow-hidden">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-extrabold text-primary mb-1 group-hover:text-indigo-600 transition-colors">Temsili İsim 1</h3>
+                            <p class="text-[11px] font-black uppercase tracking-[0.15em] text-indigo-500">KURUCU & CEO</p>
+                            
+                            <!-- Genişleyen Açıklama Alanı (CSS Grid Hilesi) -->
+                            <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+                                <div class="overflow-hidden">
+                                    <div class="pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <p class="text-slate-500 text-sm leading-relaxed mb-5 italic">"Yapay zeka ve veri biliminin şirketlerin dönüşümündeki rolü tartışılmaz. Geleceği veriden inşa ediyoruz."</p>
+                                        <!-- Sosyal İkonlar -->
+                                        <div class="flex justify-center gap-3">
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="twitter" class="w-4 h-4"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ekip Üyesi 2 -->
+                <div class="group flex flex-col items-center reveal reveal-delay-2">
+                    <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-sm">
+                        <span class="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest text-xs z-0">Fotoğraf 2</span>
+                        <img src="{{ url_for('static', filename='ekip2.png') }}" alt="Ekip Üyesi 2" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-700 ease-in-out group-hover:scale-105" onerror="this.style.opacity=0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    </div>
+                    <div class="relative w-[92%] -mt-16 bg-white rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 transform group-hover:-translate-y-4 z-30 flex flex-col border border-slate-50 overflow-hidden">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-extrabold text-primary mb-1 group-hover:text-indigo-600 transition-colors">Temsili İsim 2</h3>
+                            <p class="text-[11px] font-black uppercase tracking-[0.15em] text-indigo-500">BAŞ VERİ BİLİMCİSİ</p>
+                            
+                            <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+                                <div class="overflow-hidden">
+                                    <div class="pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <p class="text-slate-500 text-sm leading-relaxed mb-5 italic">"Karmaşık verilerin ardındaki görünmeyen hikayeleri ortaya çıkarmak üzerine odaklanıyoruz."</p>
+                                        <div class="flex justify-center gap-3">
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="github" class="w-4 h-4"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ekip Üyesi 3 -->
+                <div class="group flex flex-col items-center reveal reveal-delay-3">
+                    <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-sm">
+                        <span class="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest text-xs z-0">Fotoğraf 3</span>
+                        <img src="{{ url_for('static', filename='ekip3.png') }}" alt="Ekip Üyesi 3" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-700 ease-in-out group-hover:scale-105" onerror="this.style.opacity=0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    </div>
+                    <div class="relative w-[92%] -mt-16 bg-white rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 transform group-hover:-translate-y-4 z-30 flex flex-col border border-slate-50 overflow-hidden">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-extrabold text-primary mb-1 group-hover:text-indigo-600 transition-colors">Temsili İsim 3</h3>
+                            <p class="text-[11px] font-black uppercase tracking-[0.15em] text-indigo-500">GÖRÜNTÜ İŞLEME</p>
+                            
+                            <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+                                <div class="overflow-hidden">
+                                    <div class="pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <p class="text-slate-500 text-sm leading-relaxed mb-5 italic">"Kameraların sadece görmesini değil, anlamlandırmasını sağlayarak pikselleri veriye dönüştürüyoruz."</p>
+                                        <div class="flex justify-center gap-3">
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="twitter" class="w-4 h-4"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ekip Üyesi 4 -->
+                <div class="group flex flex-col items-center reveal reveal-delay-4">
+                    <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-sm">
+                        <span class="absolute inset-0 flex items-center justify-center text-slate-300 font-bold uppercase tracking-widest text-xs z-0">Fotoğraf 4</span>
+                        <img src="{{ url_for('static', filename='ekip4.png') }}" alt="Ekip Üyesi 4" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-700 ease-in-out group-hover:scale-105" onerror="this.style.opacity=0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    </div>
+                    <div class="relative w-[92%] -mt-16 bg-white rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 transform group-hover:-translate-y-4 z-30 flex flex-col border border-slate-50 overflow-hidden">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-extrabold text-primary mb-1 group-hover:text-indigo-600 transition-colors">Temsili İsim 4</h3>
+                            <p class="text-[11px] font-black uppercase tracking-[0.15em] text-indigo-500">SİSTEM MİMARI</p>
+                            
+                            <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
+                                <div class="overflow-hidden">
+                                    <div class="pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                        <p class="text-slate-500 text-sm leading-relaxed mb-5 italic">"Geliştirdiğimiz algoritmaların kusursuz ve güvenli bir altyapıda 7/24 çalışabilmesini sağlayan mimariler kuruyoruz."</p>
+                                        <div class="flex justify-center gap-3">
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                                            <a href="#" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 transition-colors"><i data-feather="github" class="w-4 h-4"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- JavaScript Fonksiyonları -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- 0. SCROLL REVEAL (Aşağı Kaydırma Animasyonları) ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Bir kere çalıştıktan sonra durdur
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+
+        // Ortak Static URL Base
+        const staticBaseUrl = "{{ url_for('static', filename='') }}";
+
+        // --- 1. HERO AKORDEON İŞLEVSELLİĞİ ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        const heroDynamicImage = document.getElementById('dynamic-image');
+        const heroPlaceholderText = document.getElementById('image-placeholder-text');
+
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const iconContainer = this.querySelector('.icon-container');
+                const headerText = this.querySelector('.header-text');
+                const activeIndicator = item.querySelector('.active-indicator');
+                const isHidden = content.classList.contains('hidden');
+
+                accordionItems.forEach(accItem => {
+                    accItem.querySelector('.accordion-content').classList.add('hidden');
+                    const accIcon = accItem.querySelector('.icon-container');
+                    accIcon.style.transform = 'rotate(0deg)';
+                    accIcon.classList.remove('text-indigo-600', 'bg-indigo-50', 'shadow-sm');
+                    accIcon.classList.add('text-slate-400', 'bg-transparent');
+                    
+                    const accText = accItem.querySelector('.header-text');
+                    accText.classList.remove('text-indigo-600', 'font-extrabold', 'text-[1.10rem]');
+                    accText.classList.add('text-slate-700', 'font-semibold', 'text-[1.05rem]');
+
+                    accItem.querySelector('.active-indicator').classList.remove('opacity-100');
+                    accItem.querySelector('.active-indicator').classList.add('opacity-0');
+                    accItem.classList.remove('bg-white', 'shadow-[0_8px_30px_rgba(0,0,0,0.04)]', 'border-blue-50/80', 'scale-[1.02]', 'z-10');
+                    accItem.classList.add('bg-transparent', 'border-transparent', 'scale-100', 'z-0');
+                });
+
+                if (isHidden) {
+                    content.classList.remove('hidden');
+                    iconContainer.style.transform = 'rotate(180deg)';
+                    iconContainer.classList.remove('text-slate-400', 'bg-transparent');
+                    iconContainer.classList.add('text-indigo-600', 'bg-indigo-50', 'shadow-sm');
+
+                    headerText.classList.remove('text-slate-700', 'font-semibold', 'text-[1.05rem]');
+                    headerText.classList.add('text-indigo-600', 'font-extrabold', 'text-[1.10rem]');
+
+                    activeIndicator.classList.remove('opacity-0');
+                    activeIndicator.classList.add('opacity-100');
+                    item.classList.remove('bg-transparent', 'border-transparent', 'scale-100', 'z-0');
+                    item.classList.add('bg-white', 'shadow-[0_8px_30px_rgba(0,0,0,0.04)]', 'border-blue-50/80', 'scale-[1.02]', 'z-10');
+
+                    const newImageSrc = this.getAttribute('data-image');
+                    const newTitle = this.getAttribute('data-title');
+
+                    heroDynamicImage.style.opacity = 0;
+                    heroPlaceholderText.textContent = newTitle;
+                    document.getElementById('image-placeholder-container').style.opacity = 1;
+
+                    setTimeout(() => {
+                        heroDynamicImage.src = newImageSrc;
+                        heroDynamicImage.alt = newTitle;
+                    }, 400); 
+                }
+            });
+        });
+
+        // --- 2. DEMO ALANI DİNAMİK VERİ YAPISI VE İŞLEVSELLİĞİ ---
+        let currentCategory = "1";
+        const demoData = {
+            "1": { 
+                scenarios: [
+                    { tab: "İşlem Senaryosu 1", title: "Temsili Alt Başlık İşlem 1.1", desc: "Bu alana birinci kategori, birinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 2", title: "Temsili Alt Başlık İşlem 1.2", desc: "Bu alana birinci kategori, ikinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 3", title: "Temsili Alt Başlık İşlem 1.3", desc: "Bu alana birinci kategori, üçüncü işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." }
+                ]
+            },
+            "2": { 
+                scenarios: [
+                    { tab: "İşlem Senaryosu 1", title: "Temsili Alt Başlık İşlem 2.1", desc: "Bu alana ikinci kategori, birinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 2", title: "Temsili Alt Başlık İşlem 2.2", desc: "Bu alana ikinci kategori, ikinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 3", title: "Temsili Alt Başlık İşlem 2.3", desc: "Bu alana ikinci kategori, üçüncü işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." }
+                ]
+            },
+            "3": { 
+                scenarios: [
+                    { tab: "İşlem Senaryosu 1", title: "Temsili Alt Başlık İşlem 3.1", desc: "Bu alana üçüncü kategori, birinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 2", title: "Temsili Alt Başlık İşlem 3.2", desc: "Bu alana üçüncü kategori, ikinci işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." },
+                    { tab: "İşlem Senaryosu 3", title: "Temsili Alt Başlık İşlem 3.3", desc: "Bu alana üçüncü kategori, üçüncü işlem senaryosu için hazırlanan temsili açıklama metni gelecektir." }
+                ]
+            }
+        };
+
+        const mainTabs = document.querySelectorAll('.demo-main-tab');
+        const subTabs = document.querySelectorAll('.demo-sub-tab');
+        const demoBoxImage = document.getElementById('demo-box-image');
+        const demoBoxTitle = document.getElementById('demo-box-title');
+        const demoBoxDesc = document.getElementById('demo-box-desc');
+        const demoPlaceholderContainer = document.getElementById('demo-box-placeholder');
+        const demoLoadingText = document.getElementById('demo-box-loading-text');
+
+        function updateDemoArea(categoryId, tabIndex) {
+            const data = demoData[categoryId].scenarios[tabIndex];
+
+            subTabs.forEach((tab, index) => {
+                tab.textContent = demoData[categoryId].scenarios[index].tab;
+                if (index === tabIndex) {
+                    tab.classList.remove('border-transparent', 'text-slate-400', 'font-semibold');
+                    tab.classList.add('active', 'border-indigo-600', 'text-primary', 'font-bold');
+                } else {
+                    tab.classList.remove('active', 'border-indigo-600', 'text-primary', 'font-bold');
+                    tab.classList.add('border-transparent', 'text-slate-400', 'font-semibold');
+                }
+            });
+
+            demoBoxImage.style.opacity = 0;
+            demoBoxTitle.style.opacity = 0;
+            demoBoxDesc.style.opacity = 0;
+            demoPlaceholderContainer.style.opacity = 1;
+            demoLoadingText.textContent = `Kategori ${categoryId} - İşlem ${tabIndex + 1} Yükleniyor...`;
+
+            setTimeout(() => {
+                demoBoxTitle.textContent = data.title;
+                demoBoxDesc.textContent = data.desc;
+                demoBoxTitle.style.opacity = 1;
+                demoBoxDesc.style.opacity = 1;
+                demoBoxImage.src = `${staticBaseUrl}kategori${categoryId}_islem${tabIndex + 1}_ana.png`;
+
+                for (let i = 1; i <= 3; i++) {
+                    const exImg = document.getElementById(`demo-ex-img-${i}`);
+                    exImg.style.opacity = 0; 
+                    setTimeout(() => {
+                        exImg.src = `${staticBaseUrl}kategori${categoryId}_islem${tabIndex + 1}_ornek${i}.png`;
+                    }, i * 150); 
+                }
+            }, 300);
+        }
+
+        mainTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                mainTabs.forEach(t => {
+                    t.classList.remove('active', 'bg-white', 'text-indigo-600', 'font-extrabold', 'shadow-md', 'border-white', 'z-10');
+                    t.classList.add('bg-transparent', 'text-slate-500', 'font-semibold', 'hover:text-primary', 'hover:bg-white/50', 'border-transparent', 'z-0');
+                });
+                this.classList.remove('bg-transparent', 'text-slate-500', 'font-semibold', 'hover:text-primary', 'hover:bg-white/50', 'border-transparent', 'z-0');
+                this.classList.add('active', 'bg-white', 'text-indigo-600', 'font-extrabold', 'shadow-md', 'border-white', 'z-10');
+                currentCategory = this.getAttribute('data-category');
+                updateDemoArea(currentCategory, 0); 
+            });
+        });
+
+        subTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                updateDemoArea(currentCategory, index);
+            });
+        });
+
+        // Sayfa ilk yüklendiğinde başlatmalar
+        if(typeof feather !== 'undefined') {
+            feather.replace();
+            // Demo alanını başlat
+            updateDemoArea("1", 0);
+        }
+    });
+</script>
+{% endblock %}

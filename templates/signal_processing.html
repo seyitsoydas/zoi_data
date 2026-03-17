@@ -1,0 +1,470 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* Gelişmiş Animasyonlar ve Geçişler */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 100ms; }
+    .reveal-delay-2 { transition-delay: 200ms; }
+    .reveal-delay-3 { transition-delay: 300ms; }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Sinyal İşleme Özel Animasyonları (Ekolayzır / Dalga) */
+    @keyframes wave-bounce {
+        0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+        50% { transform: scaleY(1); opacity: 1; }
+    }
+    .bar-1 { animation: wave-bounce 1.2s ease-in-out infinite; }
+    .bar-2 { animation: wave-bounce 1.2s ease-in-out infinite 0.2s; }
+    .bar-3 { animation: wave-bounce 1.2s ease-in-out infinite 0.4s; }
+    .bar-4 { animation: wave-bounce 1.2s ease-in-out infinite 0.1s; }
+    .bar-5 { animation: wave-bounce 1.2s ease-in-out infinite 0.5s; }
+    .bar-6 { animation: wave-bounce 1.2s ease-in-out infinite 0.3s; }
+    .bar-7 { animation: wave-bounce 1.2s ease-in-out infinite 0.6s; }
+
+    /* Radar Ping Animasyonu */
+    @keyframes ping-radar {
+        0% { transform: scale(1); opacity: 0.8; }
+        100% { transform: scale(3); opacity: 0; }
+    }
+    .animate-radar {
+        animation: ping-radar 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    /* Bento Box (Modern Kart) Efektleri */
+    .bento-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.05);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bento-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.15); /* Violet shadow */
+        border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    /* Cam Efektli Koyu Tema Kartları */
+    .glass-dark {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+    .glass-dark-hover:hover {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: rgba(168, 85, 247, 0.3); /* Purple border */
+        box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    /* Arka Plan Desenleri */
+    .bg-grid-pattern {
+        background-image: linear-gradient(to right, rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+</style>
+
+<main class="flex-grow pt-20 bg-[#fafcff] overflow-hidden font-sans relative">
+    
+    <!-- 1. HERO SECTION (Signal Focus) -->
+    <section class="relative min-h-[90vh] flex items-center pt-10 pb-20 lg:pt-0 lg:pb-0">
+        <!-- Arka Plan Işıkları ve Grid -->
+        <div class="absolute inset-0 bg-grid-pattern -z-30 opacity-60"></div>
+        <div class="absolute top-0 right-0 w-[50rem] h-[50rem] bg-gradient-to-br from-violet-300/20 to-fuchsia-300/20 rounded-full blur-[120px] pointer-events-none -z-20 animate-float" style="animation-duration: 15s;"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-gradient-to-tr from-purple-300/20 to-pink-300/10 rounded-full blur-[100px] pointer-events-none -z-20 animate-float" style="animation-delay: 3s; animation-duration: 12s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+                
+                <!-- Sol: İçerik -->
+                <div class="w-full lg:w-[55%] space-y-8 z-10">
+                    <div class="reveal">
+                        <!-- Teknoloji Badge -->
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-6 group cursor-default">
+                            <i data-feather="radio" class="w-3.5 h-3.5 text-violet-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider group-hover:text-primary transition-colors">Digital Signal Processing</span>
+                        </div>
+                        
+                        <h1 class="text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold text-primary leading-[1.05] tracking-tight mb-6">
+                            Görünmeyeni <br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-600 relative inline-block pb-2">
+                                Duyulur Kılıyoruz.
+                                <svg class="absolute w-full h-3 bottom-0 left-0 text-fuchsia-500/20 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                    <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="transparent"/>
+                                </svg>
+                            </span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-500 leading-relaxed font-medium max-w-xl">
+                            IoT sensörlerinden gelen titreşim verilerinden, tıbbi EEG sinyallerine ve akustik analizlere kadar; gerçek zamanlı veri akışlarını gürültüden arındırıp içgörüye dönüştürüyoruz.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 items-center reveal reveal-delay-1">
+                        <a href="{{ url_for('home') }}#team" class="h-14 px-8 bg-primary rounded-full flex items-center justify-center gap-2.5 text-white font-bold text-sm hover:bg-slate-800 transition-all shadow-lg hover:-translate-y-1">
+                            Projeyi Konuşalım <i data-feather="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#signal-products" class="h-14 px-8 bg-white border border-slate-200 rounded-full flex items-center justify-center gap-2.5 text-slate-700 font-bold text-sm hover:border-violet-200 hover:text-violet-600 hover:bg-violet-50/50 transition-all">
+                            Çözümleri İnceleyin
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sağ: Özel "Signal Processing" İllüstrasyonu -->
+                <div class="w-full lg:w-[45%] relative reveal reveal-delay-2">
+                    <div class="relative w-full aspect-square md:aspect-[4/3] lg:aspect-square bg-white/40 p-4 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(15,23,42,0.1)] border border-white backdrop-blur-xl z-20">
+                        <div class="w-full h-full bg-slate-900 rounded-[2.5rem] relative overflow-hidden flex items-center justify-center group border border-slate-800">
+                            
+                            <!-- Signal Arka Plan -->
+                            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.8)_0%,transparent_70%)] group-hover:opacity-40 transition-opacity duration-700"></div>
+                            
+                            <!-- Merkezdeki Dalga Animasyonu (Ekolayzır) -->
+                            <div class="relative z-10 flex items-end gap-1.5 h-24 p-4">
+                                <div class="w-3 bg-violet-400 rounded-t-sm bar-1 shadow-[0_0_10px_rgba(139,92,246,0.6)]"></div>
+                                <div class="w-3 bg-fuchsia-400 rounded-t-sm bar-2 shadow-[0_0_10px_rgba(217,70,239,0.6)]"></div>
+                                <div class="w-3 bg-purple-400 rounded-t-sm bar-3 shadow-[0_0_10px_rgba(168,85,247,0.6)]"></div>
+                                <div class="w-3 bg-violet-500 rounded-t-sm bar-4 shadow-[0_0_10px_rgba(139,92,246,0.8)] h-full"></div>
+                                <div class="w-3 bg-pink-400 rounded-t-sm bar-5 shadow-[0_0_10px_rgba(244,114,182,0.6)]"></div>
+                                <div class="w-3 bg-fuchsia-500 rounded-t-sm bar-6 shadow-[0_0_10px_rgba(217,70,239,0.6)]"></div>
+                                <div class="w-3 bg-violet-400 rounded-t-sm bar-7 shadow-[0_0_10px_rgba(139,92,246,0.6)]"></div>
+                            </div>
+
+                            <!-- Canlı Veri Monitörü Kutucuğu -->
+                            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-3/4 bg-slate-800/80 backdrop-blur-md rounded-xl border border-slate-700 p-4 shadow-2xl">
+                                <div class="flex justify-between items-center mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="relative">
+                                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                            <div class="absolute inset-0 rounded-full border border-red-500 animate-radar"></div>
+                                        </div>
+                                        <span class="text-xs text-slate-300 font-mono">LIVE_FEED_01</span>
+                                    </div>
+                                    <span class="text-xs text-violet-400 font-mono font-bold">1.42 kHz</span>
+                                </div>
+                                <div class="w-full h-px bg-slate-700 relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 h-full w-1/3 bg-violet-500 rounded-full animate-[scan-vertical_2s_linear_infinite]" style="animation-name: slide-right;"></div>
+                                </div>
+                                <style>
+                                    @keyframes slide-right { 0% { left: -30%; } 100% { left: 100%; } }
+                                </style>
+                            </div>
+
+                            <!-- Yüzen Parametreler -->
+                            <div class="absolute -right-2 bottom-1/4 bg-slate-800/80 backdrop-blur-md text-fuchsia-400 text-[10px] font-mono font-extrabold px-3 py-1.5 rounded-lg shadow-xl border border-slate-700 animate-float">
+                                noise_reduction()
+                            </div>
+                            <div class="absolute -left-4 bottom-1/4 bg-slate-800/80 backdrop-blur-md text-violet-400 text-[10px] font-mono font-extrabold px-3 py-1.5 rounded-lg shadow-xl border border-slate-700 animate-float" style="animation-delay: 1.5s;">
+                                fft_transform()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. BENTO GRID - SİNYAL İŞLEME YETKİNLİKLERİ -->
+    <section class="py-24 relative z-10 border-t border-slate-200/50 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-xs font-black text-violet-600 uppercase tracking-[0.2em] bg-violet-50 px-3 py-1 rounded-md">ODAK ALANLARIMIZ</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-primary mt-5 tracking-tight">Frekanslardan Stratejiye</h2>
+                <p class="mt-4 text-slate-500 text-lg">
+                    Sektörlere özel geliştirdiğimiz dijital sinyal işleme (DSP) ve zaman serisi analizi yetkinliklerimiz.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal reveal-delay-1">
+                <!-- Büyük Kutu 1: Endüstriyel & IoT -->
+                <div class="md:col-span-2 bento-card rounded-[2rem] p-8 md:p-10 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-violet-100 rounded-full blur-[80px] -z-10 group-hover:bg-violet-200 transition-colors duration-500"></div>
+                    <div class="w-14 h-14 bg-violet-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-violet-600/30">
+                        <i data-feather="wifi" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-3">Gerçek Zamanlı IoT & Sensör Analitiği</h3>
+                    <p class="text-slate-500 text-base leading-relaxed max-w-lg mb-6">
+                        Endüstriyel makinelerden, giyilebilir teknolojilere kadar cihazlardan akan sensör verilerini işliyoruz. Titreşim analizi ve Kestirimci Bakım (Predictive Maintenance) ile arızaları olmadan öngörüyoruz.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600">Predictive Maintenance</span>
+                        <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600">Vibration Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Dikey Kutu: Biyomedikal Sinyaller -->
+                <div class="md:row-span-2 bento-card rounded-[2rem] p-8 md:p-10 relative overflow-hidden group flex flex-col">
+                    <div class="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-fuchsia-50 to-transparent -z-10"></div>
+                    <div class="w-14 h-14 bg-fuchsia-500 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-fuchsia-500/30">
+                        <i data-feather="activity" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-3">Biyomedikal Sinyal İşleme</h3>
+                    <p class="text-slate-500 text-base leading-relaxed mb-8 flex-grow">
+                        Elektrokardiyografi (EKG) ve Elektroensefalografi (EEG) gibi hayati sinyalleri gürültüden arındırıyor, sağlık sektöründe otomatik anomali tespiti yapan algoritmalar tasarlıyoruz.
+                    </p>
+                    <div class="space-y-3 w-full">
+                        <div class="bg-white p-3 rounded-xl border border-slate-100 flex items-center gap-3 shadow-sm">
+                            <i data-feather="heart" class="w-5 h-5 text-fuchsia-500"></i>
+                            <span class="font-bold text-sm text-primary">ECG/EEG Processing</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-100 flex items-center gap-3 shadow-sm">
+                            <i data-feather="filter" class="w-5 h-5 text-fuchsia-500"></i>
+                            <span class="font-bold text-sm text-primary">Noise Reduction</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yatay Küçük Kutu 1: Ses İşleme -->
+                <div class="bento-card rounded-[2rem] p-8 relative overflow-hidden group">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-feather="mic" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-primary mb-2">Akustik Analiz & Ses İşleme</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                        Ses verilerinden özellik çıkarımı yaparak üretim hattındaki akustik anormallikleri veya sesli komutları analiz ediyoruz.
+                    </p>
+                </div>
+
+                <!-- Yatay Küçük Kutu 2: Zaman Serisi -->
+                <div class="bento-card rounded-[2rem] p-8 relative overflow-hidden group">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-feather="trending-up" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-primary mb-2">Zaman Serisi (Time-Series)</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                        Finansal verilerden enerji tüketimine kadar sıralı verilerde derin öğrenme (LSTM, GRU) ile gelecekteki değerleri öngörüyoruz.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ÖZEL VİTRİN: SİNYAL İŞLEME ÜRÜNLERİ (Dark Mode) -->
+    <section id="signal-products" class="py-32 relative bg-primary overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KSIvPjwvc3ZnPg==')] opacity-50"></div>
+        <div class="absolute top-0 right-0 w-[60rem] h-[60rem] bg-violet-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[60rem] h-[60rem] bg-fuchsia-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-24 reveal">
+                <span class="text-xs font-black text-violet-400 uppercase tracking-[0.2em] bg-violet-900/30 border border-violet-500/20 px-3 py-1 rounded-md mb-4 inline-block">VİTRİN</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-2 tracking-tight">Sinyal İşleme Çözümleri</h2>
+                <p class="mt-4 text-slate-400 text-lg">
+                    Gürültülü veriyi değerli içgörülere dönüştüren sektörel sistemlerimiz.
+                </p>
+            </div>
+
+            <div class="space-y-24">
+                
+                <!-- Ürün 1: Akustik Anomali -->
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 reveal">
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-purple-500 to-violet-600 rounded-3xl transform rotate-3 group-hover:rotate-1 transition-transform duration-500 opacity-40 blur-lg"></div>
+                        <div class="glass-dark rounded-3xl p-2 relative z-10 border border-slate-700 overflow-hidden transform group-hover:-translate-y-2 transition-transform duration-500">
+                            <div class="aspect-video bg-slate-800 rounded-2xl relative overflow-hidden flex items-center justify-center group/img">
+                                <!-- Placeholder if no real image -->
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 group-hover/img:scale-105 transition-transform duration-700">
+                                    <i data-feather="radio" class="w-12 h-12 mb-3 opacity-50"></i>
+                                    <span class="font-bold tracking-wider text-sm">Akustik Monitör UI</span>
+                                </div>
+                                <!-- Gerçek görsel eklendiğinde devreye girer -->
+                                <!-- <img src="url_for..." alt="Acoustic Tool" class="..."> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-800 border border-slate-700 text-violet-400 text-xs font-bold uppercase tracking-widest mb-4">
+                            Endüstri 4.0
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Üretim Hattı Akustik Analizi</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                            Fabrika ortamındaki makinelerin çalışma seslerini mikrofonlarla dinleyip, spektrogram dönüşümleri üzerinden rulman hatalarını veya mekanik arızaları oluşmadan önce tespit eden sistem.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Fast Fourier Transform (FFT) tabanlı anlık analiz</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Arıza oranında %40'a varan azalma (Kestirimci Bakım)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ürün 2: Biyomedikal Sinyal -->
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-16 reveal">
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-fuchsia-500 to-pink-600 rounded-3xl transform -rotate-3 group-hover:-rotate-1 transition-transform duration-500 opacity-40 blur-lg"></div>
+                        <div class="glass-dark rounded-3xl p-2 relative z-10 border border-slate-700 overflow-hidden transform group-hover:-translate-y-2 transition-transform duration-500">
+                            <div class="aspect-video bg-slate-800 rounded-2xl relative overflow-hidden flex items-center justify-center group/img">
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 group-hover/img:scale-105 transition-transform duration-700">
+                                    <i data-feather="activity" class="w-12 h-12 mb-3 opacity-50"></i>
+                                    <span class="font-bold tracking-wider text-sm">Vital Sinyal Dashboard UI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-800 border border-slate-700 text-fuchsia-400 text-xs font-bold uppercase tracking-widest mb-4">
+                            Sağlık Teknolojileri
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Vital Sign İzleme ve Anomali Tespiti</h3>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                            Hastaların giyilebilir sensörlerinden alınan kalp atış hızı veya beyin dalgaları verilerindeki gürültüleri (artefakt) temizleyip, nörolojik veya kardiyolojik anomalileri yapay zeka ile otomatik saptar.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-fuchsia-500/20 text-fuchsia-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Hareket gürültülerinin dijital filtreleme ile temizlenmesi</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-fuchsia-500/20 text-fuchsia-400 flex items-center justify-center mt-0.5"><i data-feather="check" class="w-3.5 h-3.5"></i></div>
+                                <span class="text-slate-300">Doktorlar için karar destek arayüzü entegrasyonu</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. İŞ SÜRECİ: Sinyalden Aksiyona -->
+    <section class="py-24 bg-[#fafcff] relative border-t border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 reveal">
+                <span class="text-xs font-black text-violet-600 uppercase tracking-[0.2em] bg-violet-50 px-3 py-1 rounded-md">İŞ AKIŞIMIZ</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mt-5">Sinyalden Aksiyona Giden Yol</h2>
+                <p class="mt-4 text-slate-500 text-lg max-w-2xl mx-auto">Donanımdan gelen ham veriyi 4 profesyonel adımda işlenebilir zekaya çeviriyoruz.</p>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto">
+                <div class="hidden md:block absolute top-[45px] left-[10%] w-[80%] h-1 bg-slate-100 rounded-full -z-10">
+                    <div class="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 rounded-full w-full opacity-50"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                    <div class="flex flex-col items-center text-center reveal">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-violet-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="zap" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Veri Toplama (DAQ)</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Sensörlerden, mikrofonlardan veya tıbbi cihazlardan ham sinyallerin toplanması.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-1">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-fuchsia-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="filter" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Filtreleme & Temizlik</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Ortam gürültülerinin (noise) dijital filtrelerle (Low/High Pass) temizlenmesi.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-2">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-purple-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="cpu" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Özellik Çıkarımı</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Zaman veya frekans uzayından (FFT) makine öğrenimi için en anlamlı verinin çekilmesi.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center reveal reveal-delay-3">
+                        <div class="w-24 h-24 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-violet-600 mb-6 shadow-xl shadow-slate-200/50 z-10 transform hover:-translate-y-2 transition-transform">
+                            <i data-feather="bell" class="w-10 h-10"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-primary mb-3">Model & Uyarı</h4>
+                        <p class="text-sm text-slate-500 leading-relaxed">Derin öğrenme modelleri ile anomali durumlarında gerçek zamanlı aksiyon/uyarı üretilmesi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CTA SECTION (Kusursuz Hizalanmış Temiz Tasarım) -->
+    <section class="py-32 relative overflow-hidden bg-gradient-to-b from-white to-[#f8fafc] flex flex-col items-center justify-center border-t border-slate-100">
+        <!-- Soft Glow Arka Plan -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[60rem] max-h-[60rem] bg-violet-100/30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+        <div class="max-w-5xl mx-auto px-4 text-center reveal relative z-10 w-full">
+            
+            <!-- Tipografi ve Filigran Konteyneri -->
+            <div class="relative w-full flex flex-col items-center justify-center py-12 md:py-20 mb-4">
+                
+                <!-- Kusursuz Ortalanmış, Daha Belirgin Filigran (Watermark) -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+                    <span class="text-[12vw] md:text-[11rem] lg:text-[13.5rem] font-black text-slate-200/70 tracking-tighter leading-none whitespace-nowrap">
+                        Yapay Zeka Destekli
+                    </span>
+                </div>
+                
+                <!-- Pürüzsüz Geçişli Ana Başlık -->
+                <h2 class="relative z-10 text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 tracking-tight leading-[1.1] pb-2">
+                    Geleceğe Hazır<br>Mısınız?
+                </h2>
+            </div>
+
+            <!-- Alt Açıklama Metni -->
+            <p class="text-slate-500 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed relative z-10">
+                Uluslararası işbirlikleri ve akademik tecrübemizle, verinizden değer<br class="hidden md:block">
+                üreten özel algoritmalar tasarlamak için bizimle iletişime geçin.
+            </p>
+
+            <!-- Butonlar -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto relative z-10">
+                <!-- Ana Sayfa Ekip Kısmına Yönlendiren Buton -->
+                <a href="{{ url_for('home') }}#team" class="group w-full sm:w-auto h-14 px-10 bg-white text-slate-800 rounded-full font-bold hover:shadow-[0_10px_30px_-10px_rgba(139,92,246,0.4)] hover:border-violet-200 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_5px_20px_rgba(0,0,0,0.05)] border border-slate-100 flex items-center justify-center gap-3 text-[15px]">
+                    Uzmanlarımızla Görüşün 
+                    <i data-feather="arrow-right" class="w-4 h-4 text-violet-500 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                
+                <!-- Sağ Buton (Şeffaf Zemin, Mail İkonu) -->
+                <a href="mailto:info@zoidata.com" class="group w-full sm:w-auto h-14 px-10 bg-transparent border-2 border-slate-200 text-slate-500 rounded-full font-bold hover:border-slate-300 hover:text-slate-700 hover:bg-slate-50 transition-all duration-300 flex items-center justify-center gap-3 text-[15px]">
+                    <i data-feather="mail" class="w-4 h-4 opacity-70"></i> info@zoidata.com
+                </a>
+            </div>
+            
+        </div>
+    </section>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if(typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    });
+</script>
+{% endblock %}

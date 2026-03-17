@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZoiData - Veri ve Yapay Zeka Çözümleri</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Özel Tailwind Yapılandırması -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#3b82f6',
+                        accent: '#10b981',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link-effect {
+            position: relative;
+        }
+        .nav-link-effect::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3b82f6;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link-effect:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .dropdown-shadow {
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+        }
+
+        /* Smooth Transition for Dropdown */
+        .dropdown-menu {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(10px) scale(0.98);
+        }
+        .group:hover .dropdown-menu {
+            transform: translateY(0) scale(1);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Bölümü -->
+                <a href="/" class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <div class="relative flex items-center">
+                        <!-- Statik Klasöründen Logo Kullanımı (Yazı logo içerisinde olduğu için span kaldırıldı) -->
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="ZoiData Logo" class="h-12 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        
+                        <!-- Logo yüklenemezse fallback (yedek) ikon -->
+                        <div class="hidden w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl items-center justify-center text-white font-extrabold text-xl shadow-lg transform group-hover:rotate-6 transition-transform duration-300">
+                            Z
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Masaüstü Menü -->
+                <div class="hidden lg:flex items-center space-x-2">
+                    <a href="/" class="px-4 py-2 text-gray-600 hover:text-secondary font-semibold transition-colors nav-link-effect">Ana Sayfa</a>
+                    
+                    <!-- Çözümler Gelişmiş Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-gray-600 group-hover:text-secondary font-semibold transition-colors flex items-center gap-1.5 rounded-lg group-hover:bg-blue-50/50">
+                            Çözümler 
+                            <i data-feather="chevron-down" class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+                        
+                        <div class="absolute top-full -left-20 mt-2 w-[480px] bg-white rounded-2xl dropdown-shadow border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible dropdown-menu p-6 grid grid-cols-2 gap-4">
+                            <a href="/solutions/ai-ml" class="flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group/item">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex flex-shrink-0 items-center justify-center text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="cpu" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">Yapay Zeka & ML</p>
+                                    <p class="text-xs text-gray-500 mt-1">Öngörücü analitik modelleri ve otomasyon.</p>
+                                </div>
+                            </a>
+                            <a href="/solutions/computer-vision" class="flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group/item">
+                                <div class="w-10 h-10 bg-indigo-100 rounded-lg flex flex-shrink-0 items-center justify-center text-indigo-600 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="eye" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">Görüntü İşleme</p>
+                                    <p class="text-xs text-gray-500 mt-1">Nesne tanıma ve görsel veri analizi.</p>
+                                </div>
+                            </a>
+                            <a href="/solutions/signal-processing" class="flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group/item">
+                                <div class="w-10 h-10 bg-emerald-100 rounded-lg flex flex-shrink-0 items-center justify-center text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="activity" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">Sinyal İşleme</p>
+                                    <p class="text-xs text-gray-500 mt-1">Gerçek zamanlı sinyal ve veri optimizasyonu.</p>
+                                </div>
+                            </a>
+                            <a href="/solutions/ecommerce" class="flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group/item">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex flex-shrink-0 items-center justify-center text-orange-600 group-hover/item:bg-orange-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="shopping-cart" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">E-Ticaret</p>
+                                    <p class="text-xs text-gray-500 mt-1">Veri odaklı satış ve sepet dönüşüm çözümleri.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Hizmetlerimiz Gelişmiş Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-gray-600 group-hover:text-secondary font-semibold transition-colors flex items-center gap-1.5 rounded-lg group-hover:bg-purple-50/50">
+                            Hizmetlerimiz 
+                            <i data-feather="chevron-down" class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+                        
+                        <div class="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl dropdown-shadow border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible dropdown-menu p-4">
+                            <a href="/services/rd-innovation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 transition-all group/item">
+                                <div class="w-8 h-8 bg-purple-100 rounded flex flex-shrink-0 items-center justify-center text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="lightbulb" class="w-4 h-4"></i>
+                                </div>
+                                <span class="font-bold text-sm text-gray-800">Ar-Ge ve İnovasyon</span>
+                            </a>
+                            <a href="/services/data-science" class="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 transition-all group/item">
+                                <div class="w-8 h-8 bg-purple-100 rounded flex flex-shrink-0 items-center justify-center text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
+                                    <i data-feather="pie-chart" class="w-4 h-4"></i>
+                                </div>
+                                <span class="font-bold text-sm text-gray-800">Veri Bilimi Danışmanlığı</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <a href="/about" class="px-4 py-2 text-gray-600 hover:text-secondary font-semibold transition-colors nav-link-effect">Hakkımızda</a>
+                    <a href="/blog" class="px-4 py-2 text-gray-600 hover:text-secondary font-semibold transition-colors nav-link-effect">Blog</a>
+                </div>
+
+                <!-- CTA Bölümü -->
+                <div class="hidden lg:flex items-center gap-4">
+                    <a href="/contact" class="bg-primary text-white px-7 py-2.5 rounded-xl font-bold transition-all btn-glow flex items-center gap-2 group/btn active:scale-95 shadow-lg shadow-gray-200">
+                        İletişim 
+                        <i data-feather="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"></i>
+                    </a>
+                </div>
+
+                <!-- Mobil Menü Butonu -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2.5 bg-gray-100 text-primary rounded-xl hover:bg-gray-200 transition-colors focus:outline-none">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobil Menü Panel -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-2xl overflow-y-auto max-h-[calc(100vh-80px)]">
+            <div class="p-6 space-y-6">
+                <div class="space-y-4">
+                    <a href="/" class="block text-lg font-bold text-primary">Ana Sayfa</a>
+                    <hr class="border-gray-50">
+                    
+                    <div>
+                        <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Çözümler</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <a href="/solutions/ai-ml" class="flex items-center gap-3 p-2 rounded-lg hover:bg-blue-50">Yapay Zeka & ML</a>
+                            <a href="/solutions/computer-vision" class="flex items-center gap-3 p-2 rounded-lg hover:bg-blue-50">Görüntü İşleme</a>
+                            <a href="/solutions/signal-processing" class="flex items-center gap-3 p-2 rounded-lg hover:bg-blue-50">Sinyal İşleme</a>
+                            <a href="/solutions/ecommerce" class="flex items-center gap-3 p-2 rounded-lg hover:bg-blue-50">E-Ticaret</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Hizmetler</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <a href="/services/rd-innovation" class="flex items-center gap-3 p-2 rounded-lg hover:bg-purple-50">Ar-Ge ve İnovasyon</a>
+                            <a href="/services/data-science" class="flex items-center gap-3 p-2 rounded-lg hover:bg-purple-50">Veri Bilimi</a>
+                        </div>
+                    </div>
+
+                    <a href="/about" class="block text-lg font-bold text-primary">Hakkımızda</a>
+                    <a href="/blog" class="block text-lg font-bold text-primary">Blog / Kaynaklar</a>
+                </div>
+                
+                <div class="pt-4">
+                    <a href="/contact" class="flex justify-center items-center gap-2 w-full py-4 text-base font-bold bg-primary text-white rounded-2xl shadow-xl active:scale-[0.98] transition-transform">
+                        İletişim <i data-feather="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- İçerik Bloğu -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="bg-primary text-gray-400 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                <div class="lg:col-span-2">
+                    <a href="/" class="flex items-center mb-6">
+                        <!-- Footer Logo (Yazı logo içerisinde olduğu için span kaldırıldı) -->
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="ZoiData Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="hidden w-8 h-8 bg-secondary rounded-xl items-center justify-center text-white font-bold text-lg">Z</div>
+                    </a>
+                    <p class="text-sm leading-relaxed max-w-sm mb-8 text-gray-400">
+                        Geleceği veriden inşa ediyoruz. Makine öğrenmesinden sinyal işlemeye kadar en karmaşık problemleri teknolojiyle çözüyoruz.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-xl bg-gray-800/50 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                        <a href="https://twitter.com" target="_blank" class="w-10 h-10 rounded-xl bg-gray-800/50 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i data-feather="twitter" class="w-4 h-4"></i></a>
+                        <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-xl bg-gray-800/50 flex items-center justify-center hover:bg-secondary hover:text-white transition-all"><i data-feather="github" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Çözümler</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="/solutions/ai-ml" class="hover:text-white transition-colors">Yapay Zeka & ML</a></li>
+                        <li><a href="/solutions/computer-vision" class="hover:text-white transition-colors">Görüntü İşleme</a></li>
+                        <li><a href="/solutions/signal-processing" class="hover:text-white transition-colors">Sinyal İşleme</a></li>
+                        <li><a href="/solutions/ecommerce" class="hover:text-white transition-colors">E-Ticaret</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Hizmetlerimiz</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="/services/rd-innovation" class="hover:text-white transition-colors">Ar-Ge ve İnovasyon</a></li>
+                        <li><a href="/services/data-science" class="hover:text-white transition-colors">Veri Bilimi</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-widest">Kurumsal</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="/about" class="hover:text-white transition-colors">Hakkımızda</a></li>
+                        <li><a href="/careers" class="hover:text-white transition-colors">Kariyer</a></li>
+                        <li><a href="/contact" class="hover:text-white transition-colors">İletişim</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800/50 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 ZoiData Teknoloji A.Ş. Tüm hakları saklıdır.</p>
+                <div class="flex space-x-6">
+                    <a href="/privacy" class="hover:text-white">Gizlilik</a>
+                    <a href="/terms" class="hover:text-white">Kullanım</a>
+                    <a href="/kvkk" class="hover:text-white">KVKK</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-xl');
+                nav.style.height = '72px';
+            } else {
+                nav.classList.remove('shadow-xl');
+                nav.style.height = '80px';
+            }
+        });
+    </script>
+</body>
+</html>

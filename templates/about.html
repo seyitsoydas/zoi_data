@@ -1,0 +1,405 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* Gelişmiş Scroll Reveal Animasyonları */
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 150ms; }
+    .reveal-delay-2 { transition-delay: 300ms; }
+    .reveal-delay-3 { transition-delay: 450ms; }
+
+    /* Yavaş Dalgalanma Animasyonu */
+    @keyframes float-ultra-slow {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-20px) scale(1.02); }
+    }
+    .animate-float-ultra {
+        animation: float-ultra-slow 10s ease-in-out infinite;
+    }
+
+    /* Noktalı Arka Plan Deseni (Minimalist) */
+    .bg-dots-minimal {
+        background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+        background-size: 32px 32px;
+    }
+
+    /* Ekip Kartı Editoryal Tasarımı */
+    .editorial-card {
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .editorial-card .img-wrapper {
+        overflow: hidden;
+        border-radius: 2rem;
+        position: relative;
+        transform: translateZ(0); /* Safari glitch fix */
+    }
+    .editorial-card img {
+        filter: grayscale(100%) contrast(110%);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: scale(1.01);
+    }
+    .editorial-card:hover img {
+        filter: grayscale(0%) contrast(100%);
+        transform: scale(1.05);
+    }
+    .editorial-card .info-box {
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(-2rem);
+    }
+    .editorial-card:hover .info-box {
+        transform: translateY(-2.5rem);
+        box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.15);
+        border-color: rgba(59, 130, 246, 0.2);
+    }
+    
+    /* Gelişmiş Text Gradient */
+    .text-gradient-premium {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Değerlerimiz Kartı Hover */
+    .value-card {
+        transition: all 0.4s ease;
+    }
+    .value-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    }
+    .value-icon-box {
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .value-card:hover .value-icon-box {
+        transform: scale(1.15) rotate(-5deg);
+    }
+</style>
+
+<main class="flex-grow pt-20 bg-white overflow-hidden font-sans relative selection:bg-blue-100 selection:text-blue-900">
+    
+    <!-- 1. HERO SECTION (Editoryal & Temiz Başlangıç) -->
+    <section class="relative pt-28 pb-24 md:pt-40 md:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+        <!-- Arka Plan Soft Işıkları -->
+        <div class="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-blue-100/40 rounded-full blur-[100px] pointer-events-none -z-10 animate-float-ultra"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[35rem] h-[35rem] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none -z-10 animate-float-ultra" style="animation-delay: -5s;"></div>
+        <div class="absolute inset-0 bg-dots-minimal -z-20"></div>
+
+        <div class="reveal max-w-5xl">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] mb-8">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                </span>
+                <span class="text-xs font-black text-slate-600 uppercase tracking-[0.25em]">ZoiData Teknoloji</span>
+            </div>
+            
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-black text-primary leading-[1.05] tracking-tight mb-8">
+                Akademik Disiplin, <br/>
+                <span class="text-gradient-premium relative inline-block mt-2">
+                    Endüstriyel Vizyon.
+                </span>
+            </h1>
+            
+            <p class="text-lg md:text-[1.35rem] text-slate-500 leading-relaxed font-medium max-w-3xl mx-auto">
+                Veriyi yalnızca analiz etmiyor; onu sürdürülebilir, ölçeklenebilir ve insan hayatına dokunan akıllı dijital ürünlere dönüştürüyoruz.
+            </p>
+        </div>
+    </section>
+
+    <!-- İnce Ayırıcı Çizgi -->
+    <div class="w-full max-w-6xl mx-auto h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
+    <!-- 2. HİKAYEMİZ & MİSYON (Asimetrik Kaydırmalı Grid) -->
+    <section class="py-28 lg:py-36 relative bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+                
+                <!-- Sol Sütun (Yapışkan Başlık) -->
+                <div class="w-full lg:w-5/12 lg:sticky lg:top-32 reveal">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-6 leading-tight">Bilimden Doğan<br>Bir Yapay Zeka<br>Hikayesi.</h2>
+                    <div class="w-16 h-1.5 bg-blue-600 rounded-full mb-8"></div>
+                    <p class="text-slate-500 font-medium text-lg leading-relaxed">
+                        İzmir Teknoloji Geliştirme Bölgesi'nde (Teknopark İzmir) başlayan yolculuğumuz, laboratuvarlardan çıkıp global endüstrinin kalbine dokunan yapay zeka çözümleriyle devam ediyor.
+                    </p>
+                </div>
+
+                <!-- Sağ Sütun (Detaylı Metinler ve İstatistikler) -->
+                <div class="w-full lg:w-7/12 space-y-16">
+                    <div class="reveal reveal-delay-1">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-5 flex items-center gap-3">
+                            <i data-feather="target" class="text-blue-500 w-6 h-6"></i> Temel Amacımız
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-[1.1rem]">
+                            ZoiData, biyomedikal görüntü analizi, bilgisayarlı görü ve veri odaklı analitik konularında derin uzmanlığa sahip bir yüksek teknoloji şirketidir. Kurulduğumuz günden bu yana en büyük motivasyonumuz; akademik makalelerin sadece sayfalarda kalmasını engellemek ve o teorik gücü, gerçek dünyada 7/24 çalışan ölçeklenebilir yazılımlara entegre etmektir.
+                        </p>
+                    </div>
+
+                    <div class="reveal reveal-delay-2">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-5 flex items-center gap-3">
+                            <i data-feather="layers" class="text-blue-500 w-6 h-6"></i> Neden Farklıyız?
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-[1.1rem]">
+                            Bizler sadece hazır kütüphaneleri kullanan geliştiriciler değiliz. Verinin toplanmasından işlenmesine, sıfırdan model mimarisi tasarlanmasından bulut sistemlerinde canlıya alınmasına (deployment) kadar uçtan uca çözüm sunarız. ERA-NET NEURON BB-REBUS projesi gibi uluslararası bilimsel işbirliklerine aktif katkı sağlarken, e-ticaret ve sağlık sektörünün devlerine vizyoner altyapılar inşa ediyoruz.
+                        </p>
+                    </div>
+
+                    <!-- Modern İstatistik Tablosu -->
+                    <div class="bg-slate-50 rounded-[2rem] p-8 md:p-12 border border-slate-100 reveal reveal-delay-3">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-200/60">
+                            <div class="text-center">
+                                <p class="text-4xl md:text-5xl font-black text-blue-600 mb-2">2020</p>
+                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Kuruluş</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl md:text-5xl font-black text-blue-600 mb-2">9+</p>
+                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Sektörel Ortak</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl md:text-5xl font-black text-blue-600 mb-2">4</p>
+                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Canlı AI Ürünü</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl md:text-5xl font-black text-blue-600 mb-2">6</p>
+                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Fonlanan Proje</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DEĞERLERİMİZ (Minimalist Kutu Tasarımı) -->
+    <section class="py-28 bg-[#fafcff] relative border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Kültürümüz ve İlkelerimiz</h2>
+                <p class="mt-5 text-slate-500 text-lg">Yazdığımız her satır kodun ve eğittiğimiz her modelin temelinde bu üç değişmez prensip yatar.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal reveal-delay-1">
+                <!-- Value 1 -->
+                <div class="value-card bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100/80 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center text-blue-600 mb-8 shadow-inner value-icon-box border border-blue-100/50">
+                        <i data-feather="book-open" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-4 tracking-tight">Bilimsel Temel</h3>
+                    <p class="text-slate-500 leading-relaxed font-medium">
+                        Geliştirdiğimiz algoritmaların arkasında kulaktan dolma bilgiler değil; kanıtlanmış, hakemli makalelere dayanan güçlü bir akademik literatür bulunur.
+                    </p>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="value-card bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100/80 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-8 shadow-inner value-icon-box border border-emerald-100/50">
+                        <i data-feather="maximize" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-4 tracking-tight">Ölçeklenebilirlik</h3>
+                    <p class="text-slate-500 leading-relaxed font-medium">
+                        Laboratuvar bilgisayarında çalışan bir model yetmez. Onu, milyonlarca kullanıcıya eşzamanlı ve hatasız hizmet verecek endüstriyel bir sisteme dönüştürürüz.
+                    </p>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="value-card bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100/80 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-2xl flex items-center justify-center text-purple-600 mb-8 shadow-inner value-icon-box border border-purple-100/50">
+                        <i data-feather="shield" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-primary mb-4 tracking-tight">Veri Mahremiyeti</h3>
+                    <p class="text-slate-500 leading-relaxed font-medium">
+                        Hassas tıbbi ve ticari verilerin gizliliği (Privacy-by-design), yazılım mimarimizin her katmanında taviz verilemez en katı kuralımızdır.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. EKİBİMİZ (Premium Editoryal Profil Kartları) -->
+    <section class="py-32 bg-white relative border-t border-slate-100">
+        <!-- İnce Arka Plan Detayı -->
+        <div class="absolute inset-0 bg-dots-minimal opacity-50 -z-10"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-full max-h-[600px] bg-slate-50/50 rounded-full blur-[100px] -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 reveal">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-4">Liderlik Kadrosu</h2>
+                    <p class="text-slate-500 text-lg md:text-xl">Akademik tecrübeyi mühendislik pratikleriyle harmanlayan çekirdek ekibimiz.</p>
+                </div>
+                <div class="hidden md:block">
+                    <a href="https://linkedin.com/company/zoidata" target="_blank" class="inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors">
+                        LinkedIn'de Bizi Takip Edin <i data-feather="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                
+                <!-- Başak Esin Güzel -->
+                <div class="editorial-card reveal reveal-delay-1">
+                    <div class="img-wrapper bg-slate-100 aspect-[3/4] mb-8">
+                        <div class="absolute inset-0 flex items-center justify-center text-slate-400 font-bold uppercase tracking-widest text-xs">Fotoğraf Yeri</div>
+                        <img src="{{ url_for('static', filename='basak_esin_guzel.jpg') }}" alt="Başak Esin Güzel" class="absolute inset-0 w-full h-full object-cover z-10" onerror="this.style.opacity=0">
+                    </div>
+                    <div class="info-box bg-white rounded-[2rem] p-8 relative z-20 mx-4 border border-slate-100 text-center shadow-[0_10px_30px_-15px_rgba(0,0,0,0.08)]">
+                        <h3 class="text-[1.4rem] font-extrabold text-primary mb-1">Başak Esin Güzel</h3>
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Dr. Öğr. Üyesi · Kurucu</p>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6 font-medium">
+                            Makine öğrenmesi sistemleri, ürün geliştirme stratejileri ve yapay zeka iş modelleri konusunda derin vizyon sahibi teknoloji lideri.
+                        </p>
+                        <div class="flex justify-center gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="mail" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Devrim Ünay -->
+                <div class="editorial-card reveal reveal-delay-2">
+                    <div class="img-wrapper bg-slate-100 aspect-[3/4] mb-8">
+                        <div class="absolute inset-0 flex items-center justify-center text-slate-400 font-bold uppercase tracking-widest text-xs">Fotoğraf Yeri</div>
+                        <img src="{{ url_for('static', filename='devrim_unay.jpg') }}" alt="Devrim Ünay" class="absolute inset-0 w-full h-full object-cover z-10" onerror="this.style.opacity=0">
+                    </div>
+                    <div class="info-box bg-white rounded-[2rem] p-8 relative z-20 mx-4 border border-slate-100 text-center shadow-[0_10px_30px_-15px_rgba(0,0,0,0.08)]">
+                        <h3 class="text-[1.4rem] font-extrabold text-primary mb-1">Devrim Ünay</h3>
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Prof. Dr. · Kurucu Ortak</p>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6 font-medium">
+                            Görüntü işleme ve biyomedikal veri analizi alanlarında onlarca prestijli akademik makale ve uluslararası proje yönetimi tecrübesi.
+                        </p>
+                        <div class="flex justify-center gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="mail" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seyit Soydaş -->
+                <div class="editorial-card reveal reveal-delay-3">
+                    <div class="img-wrapper bg-slate-100 aspect-[3/4] mb-8">
+                        <div class="absolute inset-0 flex items-center justify-center text-slate-400 font-bold uppercase tracking-widest text-xs">Fotoğraf Yeri</div>
+                        <img src="{{ url_for('static', filename='seyit_soydas.jpg') }}" alt="Seyit Soydaş" class="absolute inset-0 w-full h-full object-cover z-10" onerror="this.style.opacity=0">
+                    </div>
+                    <div class="info-box bg-white rounded-[2rem] p-8 relative z-20 mx-4 border border-slate-100 text-center shadow-[0_10px_30px_-15px_rgba(0,0,0,0.08)]">
+                        <h3 class="text-[1.4rem] font-extrabold text-primary mb-1">Seyit Soydaş</h3>
+                        <p class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Mühendis · Full Stack</p>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6 font-medium">
+                            Makine öğrenmesi algoritmalarının bulut mimarisi üzerinde yapılandırılması ve tam yığın (full-stack) web entegrasyonu uzmanı.
+                        </p>
+                        <div class="flex justify-center gap-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white hover:border-transparent border border-slate-200 flex items-center justify-center transition-all duration-300"><i data-feather="github" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MÜŞTERİLER (Güven Bölümü) -->
+    <section class="py-20 bg-[#f8fafc] relative border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.25em] mb-12">Bize Güvenen Partnerlerimiz</h3>
+            
+            <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="flex items-center gap-3 transform hover:scale-110 transition-transform"><div class="w-8 h-8 bg-blue-600 rounded-lg shadow-sm"></div><span class="font-black text-2xl text-slate-800 tracking-tighter">VESTEL</span></div>
+                <div class="flex items-center gap-3 transform hover:scale-110 transition-transform"><div class="w-8 h-8 bg-red-600 rounded-full shadow-sm"></div><span class="font-black text-2xl text-slate-800 tracking-tighter">PROBEL</span></div>
+                <div class="flex items-center gap-3 transform hover:scale-110 transition-transform"><div class="w-8 h-8 bg-emerald-500 rounded-md transform rotate-45 shadow-sm"></div><span class="font-black text-2xl text-slate-800 tracking-tighter">DISUN</span></div>
+                <div class="flex items-center gap-3 transform hover:scale-110 transition-transform"><div class="w-8 h-8 bg-purple-600 rounded-lg rounded-tl-none shadow-sm"></div><span class="font-black text-2xl text-slate-800 tracking-tighter">EMODA</span></div>
+                <div class="flex items-center gap-3 transform hover:scale-110 transition-transform"><div class="w-8 h-8 bg-orange-500 rounded-full shadow-sm"></div><span class="font-black text-2xl text-slate-800 tracking-tighter">TEKNORİTMA</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. İLETİŞİM & HARİTA (İstenen Orijinal Form) -->
+    <section id="contact" class="py-28 bg-white relative border-t border-slate-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            
+            <!-- Ana İletişim Kartı -->
+            <div class="bg-[#fafcff] rounded-[2.5rem] p-8 md:p-12 lg:p-16 border border-slate-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.03)]">
+                
+                <h2 class="text-xl md:text-2xl lg:text-[1.75rem] text-slate-500 font-medium text-center mb-16 max-w-3xl mx-auto leading-relaxed">
+                    İşbirliğine hazır mısınız? Projenizi dinlemek ve ZoiData'nın nasıl katkı sağlayabileceğini konuşmak isteriz.
+                </h2>
+
+                <div class="flex flex-col gap-10">
+                    
+                    <!-- Adres Bilgisi -->
+                    <div class="flex items-start gap-5 px-2">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm border border-blue-100/50">
+                            <i data-feather="map-pin" class="w-5 h-5 fill-blue-500/10"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">ADRES</p>
+                            <p class="text-lg md:text-xl text-primary font-semibold leading-tight">
+                                Teknopark İzmir, Gülbahçe, A8 Binası No:21,<br>
+                                35433 Urla/İzmir
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Harita Çerçevesi (Kusursuz Görünüm) -->
+                    <div class="relative w-full h-[400px] md:h-[480px] rounded-[2rem] overflow-hidden border border-slate-200/60 shadow-sm bg-slate-100">
+                        
+                        <!-- Google Maps Embed (Canlı ve Renkli) -->
+                        <iframe 
+                            src="https://maps.google.com/maps?q=Teknopark%20İzmir,%20Gülbahçe,%20A8%20Binası&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade" 
+                            class="pointer-events-auto w-full h-full object-cover">
+                        </iframe>
+                        
+                        <!-- Open in Maps Butonu -->
+                        <a href="https://maps.google.com/?q=Teknopark+İzmir,+Gülbahçe,+A8+Binası+No:21,+35433+Urla/İzmir" 
+                           target="_blank" 
+                           class="absolute top-4 left-4 md:top-6 md:left-6 bg-white px-5 py-3 rounded-xl shadow-lg border border-slate-100 text-[#1a73e8] font-bold text-sm flex items-center gap-2 hover:bg-blue-50 transition-all transform hover:-translate-y-0.5">
+                            Haritalarda Aç <i data-feather="external-link" class="w-4 h-4"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if(typeof feather !== 'undefined') {
+            feather.replace();
+        }
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    });
+</script>
+{% endblock %}
